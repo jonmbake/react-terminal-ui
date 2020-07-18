@@ -1,0 +1,59 @@
+{
+  "name": "react-terminal-ui",
+  "version": "0.1.0",
+  "description": "A terminal react component with support for light and dark modes.",
+  "main": "build/index.js",
+  "module": "build/index.es.js",
+  "jsnext:main": "build/index.es.js",
+  "scripts": {
+    "build": "rollup -c",
+    "install-peers": "install-peers -f",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonmbake/react-terminal-ui.git"
+  },
+  "keywords": [
+    "terminal",
+    "react",
+    "component",
+    "light",
+    "dark"
+  ],
+  "author": "Jon Bake",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonmbake/react-terminal-ui/issues"
+  },
+  "homepage": "https://github.com/jonmbake/react-terminal-ui#readme",
+  "devDependencies": {
+    "@testing-library/react": "^10.4.7",
+    "@types/jest": "^26.0.4",
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
+    "identity-obj-proxy": "^3.0.0",
+    "install-peers-cli": "^2.2.0",
+    "jest": "^26.1.0",
+    "react-scripts-ts": "^3.1.0",
+    "rollup": "^2.21.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.3",
+    "rollup-plugin-postcss": "^3.1.3",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "ts-jest": "^26.1.2",
+    "typescript": "^3.9.6"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "preset": "ts-jest",
+    "testEnvironment": "jsdom"
+  }
+}
