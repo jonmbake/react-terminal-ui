@@ -1,4 +1,4 @@
-![CI](https://github.com/jonmbake/react-terminal-ui/workflows/CI/badge.svg)
+![CI](https://github.com/jonmbake/react-terminal-ui/workflows/CI/badge.svg) [Test Coverage Report](https://jonmbake.github.io/react-terminal-ui/coverage/)
 
 # React Terminal UI
 
@@ -6,9 +6,10 @@ A react terminal componement with support for light/dark modes. Styling cortesy 
 
 Check out the **[Demo](https://jonmbake.github.io/react-terminal-ui/demo/)** :heart_eyes:
 
-## Test Coverage
+![React Terminal UI Demo Dark](https://github.com/jonmbake/screenshots/raw/master/react-terminal-ui/react-terminal-ui-demo-dark.png)
 
-[Test Coverage Report](https://jonmbake.github.io/react-terminal-ui/coverage/)
+![React Terminal UI Demo Light](https://github.com/jonmbake/screenshots/raw/master/react-terminal-ui/react-terminal-ui-demo-light.png)
+
 
 ## License
 
