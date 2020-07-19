@@ -5,7 +5,9 @@
   "main": "build/index.js",
   "module": "build/index.es.js",
   "jsnext:main": "build/index.es.js",
-  "files": ["build/index.*"],
+  "files": [
+    "build/index.*"
+  ],
   "types": "build/index.d.ts",
   "scripts": {
     "build": "rollup -c",
