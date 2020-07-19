@@ -2,7 +2,7 @@
 
 # React Terminal UI
 
-A react terminal componement with support for light/dark modes. Styling cortesy of [termynal.js](https://github.com/ines/termynal).
+A [React](https://github.com/facebook/react) terminal component with support for light/dark modes. Styling courtesy of [termynal.js](https://github.com/ines/termynal).
 
 Check out the **[Demo](https://jonmbake.github.io/react-terminal-ui/demo/)** :heart_eyes:
 
@@ -18,7 +18,7 @@ npm install --save react-terminal-ui
 
 ## Usage
 
-The _React Terminal UI_ componement is a "dumb component"-- whatever props you pass in, it will render. You usually want to have
+_React Terminal UI_ is a "dumb component"-- whatever props you pass in, it will render. You usually want to have
 a smart, controller component that controls terminal state. For example:
 
 ```
