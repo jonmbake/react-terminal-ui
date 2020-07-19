@@ -5,7 +5,8 @@
   "main": "build/index.js",
   "module": "build/index.es.js",
   "jsnext:main": "build/index.es.js",
-  "files": ["build/index.js", "build/index.es.js", "build/index.es.js"],
+  "files": ["build/index.*"],
+  "types": "build/index.d.ts",
   "scripts": {
     "build": "rollup -c",
     "build-demo": "rollup -c rollup.config.demo.js && cp src/demo/index.html build/demo",
