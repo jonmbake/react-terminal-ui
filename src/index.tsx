@@ -38,7 +38,13 @@ const Terminal = (props: Props) => {
   useEffect(() => lastInputRef?.current?.scrollIntoView({ behavior: "smooth" }), [props.onInput]);
 
   useEffect(() => {
-    document.onclick = () => document.getElementById("terminal-hidden")?.focus();
+    document.onclick = (e) => {
+      const hiddenInputEl = document.getElementById("terminal-hidden");
+      if (hiddenInputEl && hiddenInputEl != e.target) {
+        hiddenInputEl.focus();
+        hiddenInputEl.click();
+      }
+    };
   });
 
   const renderedLineData = props.lineData.map((ld, i) => {
