@@ -84,7 +84,13 @@
         };
         React.useEffect(function () { var _a; return (_a = lastInputRef === null || lastInputRef === void 0 ? void 0 : lastInputRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, [props.onInput]);
         React.useEffect(function () {
-            document.onclick = function () { var _a; return (_a = document.getElementById("terminal-hidden")) === null || _a === void 0 ? void 0 : _a.focus(); };
+            document.onclick = function (e) {
+                var hiddenInputEl = document.getElementById("terminal-hidden");
+                if (hiddenInputEl && hiddenInputEl != e.target) {
+                    hiddenInputEl.focus();
+                    hiddenInputEl.click();
+                }
+            };
         });
         var renderedLineData = props.lineData.map(function (ld, i) {
             var classes = ['react-terminal-line'];
