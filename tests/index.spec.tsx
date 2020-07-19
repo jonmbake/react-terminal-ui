@@ -1,10 +1,13 @@
 import React from 'react';
-import Terminal, { LineType } from '../src/index';
-import { render, fireEvent, screen } from '@testing-library/react';
+import Terminal, { LineType, ColorMode } from '../src/index';
+import { render, fireEvent, screen  } from '@testing-library/react';
 
 describe('Terminal component', () => {
+  let scrollIntoViewFn: (arg?: boolean | ScrollIntoViewOptions) => void;
+
   beforeAll(() => {
-    window.HTMLElement.prototype.scrollIntoView = jest.fn()
+    scrollIntoViewFn = jest.fn();
+    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewFn;
   })
 
   test('Should render prompt', () => {
@@ -15,14 +18,19 @@ describe('Terminal component', () => {
   });
 
   test('Should render line data', () => {
-    const lineData = [{type: LineType.Output, value: 'Some terminal output'}];
+    const lineData = [
+      {type: LineType.Input, value: 'Some terminal input'},
+      {type: LineType.Output, value: 'Some terminal output'}
+   ];
     const { container } = render(<Terminal lineData={ lineData } onInput={ (input: string) => '' }/>);
-    expect(container.querySelectorAll('span')).toHaveLength(2);
-    const renderedLine = screen.getByText('Some terminal output');
+    expect(container.querySelectorAll('span')).toHaveLength(3);
+    let renderedLine = screen.getByText('Some terminal output');
     expect(renderedLine.className).toEqual('react-terminal-line');
+    renderedLine = screen.getByText('Some terminal input');
+    expect(renderedLine.className).toEqual('react-terminal-line react-terminal-input');
   });
 
-  test('Should accept input', () => {
+  test('Should accept input and scroll into view', () => {
     const onInput = jest.fn();
     render(<Terminal lineData={ [] } onInput={ onInput }/>);
     const hiddenInput = screen.getByLabelText('Terminal Hidden Input');
@@ -32,6 +40,7 @@ describe('Terminal component', () => {
     expect(onInput.mock.calls.length).toEqual(0);
     fireEvent.keyDown(hiddenInput, { key: 'Enter', code: 'Enter' });
     expect(onInput).toHaveBeenCalledWith('a');
+    expect(scrollIntoViewFn).toHaveBeenCalled();
   });
 
   test('Should delete input on Backspace', () => {
@@ -44,4 +53,15 @@ describe('Terminal component', () => {
     expect(screen.getByText('ab').className).toEqual('react-terminal-line react-terminal-input');
     screen.getByDisplayValue('ab');
   });
+});
+
+test('Should support changing color mode', () => {
+  const { container } = render(<Terminal colorMode={ ColorMode.Light } lineData={ [] } onInput={ (input: string) => '' }/>);
+  expect(container.querySelector('.react-terminal-wrapper.react-terminal-light')).not.toBeNull();
+});
+
+test('Should refocus on hidden input on blur', () => {
+  const { container } = render(<Terminal lineData={ [] } onInput={ (input: string) => '' }/>)
+  screen.getByLabelText('Terminal Hidden Input').blur();
+  expect(container.ownerDocument.activeElement?.id).toEqual('terminal-hidden');
 });
