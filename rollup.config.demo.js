@@ -6,7 +6,7 @@ import resolve from "rollup-plugin-node-resolve";
 export default {
   input: "demo/index.tsx",
   output: {
-    file: "build/demo/index.js",
+    file: "docs/demo/index.js",
     format: "iife",
     sourcemap: true,
     globals: {
