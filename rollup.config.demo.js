@@ -1,7 +1,7 @@
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import external from "rollup-plugin-peer-deps-external";
-import resolve from "rollup-plugin-node-resolve";
+import resolve from "@rollup/plugin-node-resolve";
 
 export default {
   input: "demo/index.tsx",

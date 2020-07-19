@@ -16,7 +16,6 @@ jobs:
     - run: npm install && npm run install-peers
     - run: npm test
     - run: npm run build
-    - run: npm run build-demo
     - name: Commit Docs
       uses: EndBug/add-and-commit@v4
       with:

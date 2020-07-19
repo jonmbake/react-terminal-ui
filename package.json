@@ -5,13 +5,12 @@
   "main": "build/index.js",
   "module": "build/index.es.js",
   "jsnext:main": "build/index.es.js",
+  "types": "build/index.d.ts",
   "files": [
     "build/index.*"
   ],
-  "types": "build/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
-    "build-demo": "rollup -c rollup.config.demo.js && cp demo/index.html docs/demo",
+    "build": "./bin/build.sh",
     "install-peers": "install-peers -f",
     "test": "jest"
   },
@@ -40,13 +39,6 @@
     "identity-obj-proxy": "^3.0.0",
     "install-peers-cli": "^2.2.0",
     "jest": "^26.1.0",
-    "react-scripts-ts": "^3.1.0",
-    "rollup": "^2.21.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.3",
-    "rollup-plugin-postcss": "^3.1.3",
-    "rollup-plugin-typescript2": "^0.27.1",
     "ts-jest": "^26.1.2",
     "typescript": "^3.9.6"
   },
@@ -61,7 +53,17 @@
     "preset": "ts-jest",
     "testEnvironment": "jsdom",
     "collectCoverage": true,
-    "coverageReporters": ["html"],
+    "coverageReporters": [
+      "html"
+    ],
     "coverageDirectory": "docs/coverage"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "rollup": "^2.22.1",
+    "rollup-plugin-peer-deps-external": "^2.2.3",
+    "rollup-plugin-postcss": "^3.1.3",
+    "rollup-plugin-typescript2": "^0.27.1"
   }
 }
