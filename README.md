@@ -1,4 +1,4 @@
-![CI](https://github.com/jonmbake/react-terminal-ui/workflows/CI/badge.svg) [Test Coverage Report](https://jonmbake.github.io/react-terminal-ui/coverage/)
+![CI](https://github.com/jonmbake/react-terminal-ui/workflows/CI/badge.svg) [![Jest Code Coverage Report](jest-code-coverage-report.svg)](https://jonmbake.github.io/react-terminal-ui/coverage/)
 
 # React Terminal UI
 
