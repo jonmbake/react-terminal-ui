@@ -21,9 +21,10 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@3.5.7
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COMMIT_MESSAGE: Deploy Demo
         BRANCH: master
         FOLDER: build/demo
-        TARGET_FOLDER: docs
+        TARGET_FOLDER: docs/demo
     - name: Publish to NPM if version has been updated
       uses: pascalgn/npm-publish-action@4f4bf159e299f65d21cd1cbd96fc5d53228036df
       with: # All of theses inputs are optional

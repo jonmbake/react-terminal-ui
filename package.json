@@ -59,6 +59,9 @@
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "preset": "ts-jest",
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "collectCoverage": true,
+    "coverageReporters": ["html"],
+    "coverageDirectory": "docs/coverage"
   }
 }
