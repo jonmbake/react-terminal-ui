@@ -4,7 +4,7 @@ import external from "rollup-plugin-peer-deps-external";
 import resolve from "rollup-plugin-node-resolve";
 
 export default {
-  input: "src/demo/index.tsx",
+  input: "demo/index.tsx",
   output: {
     file: "build/demo/index.js",
     format: "iife",

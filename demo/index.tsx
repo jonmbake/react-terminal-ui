@@ -1,6 +1,6 @@
 import React, { useState, MouseEvent } from 'react'
 import ReactDOM from 'react-dom';
-import Terminal, { ColorMode, LineType } from '../index';
+import Terminal, { ColorMode, LineType } from '../src/index';
 
 import './style.css';
 
