@@ -116,7 +116,7 @@
             { type: LineType.Output, value: 'The following example commands are provided:' },
             { type: LineType.Output, value: '\'view-source\' will navigate to the React Terminal UI github source.' },
             { type: LineType.Output, value: '\'view-react-docs\' will naviagate to the react docs.' },
-            { type: LineType.Output, value: '\'clear\' will clear will clear the terminal.' },
+            { type: LineType.Output, value: '\'clear\' will clear the terminal.' },
         ]), lineData = _b[0], setLineData = _b[1];
         function toggleColorMode(e) {
             e.preventDefault();
