@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
+import React, { useState, useEffect, useRef, KeyboardEvent, ChangeEvent } from 'react';
 import './style.css';
 
 export enum LineType {
@@ -24,28 +24,18 @@ const Terminal = (props: Props) => {
 
   const lastInputRef = useRef<null | HTMLElement>(null)
 
-  const handleKeyPress = (event: KeyboardEvent) => {
+  const updateCurrentLineInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setCurrentLineInput(event.target.value);
+  }
+
+  const handleEnter = (event: KeyboardEvent<HTMLInputElement>) => {
     if (props.onInput != null && event.key === 'Enter') {
       props.onInput(currentLineInput);
       setCurrentLineInput('');
-    } else if (event.key === 'Backspace' && currentLineInput.length > 0) {
-      setCurrentLineInput(currentLineInput.slice(0, -1));
-    } else if (event.key.length === 1) {
-      setCurrentLineInput(currentLineInput + event.key);
     }
   }
 
   useEffect(() => lastInputRef?.current?.scrollIntoView({ behavior: "smooth" }), [props.onInput]);
-
-  useEffect(() => {
-    document.onclick = (e) => {
-      const hiddenInputEl = document.getElementById("terminal-hidden");
-      if (hiddenInputEl && hiddenInputEl != e.target) {
-        hiddenInputEl.focus();
-        hiddenInputEl.click();
-      }
-    };
-  });
 
   const renderedLineData = props.lineData.map((ld, i) => {
     const classes = ['react-terminal-line'];
@@ -75,7 +65,7 @@ const Terminal = (props: Props) => {
       <div className="hidden-input-wrapper">
         <div className="hidden-input">
           <label htmlFor="terminal-hidden">Terminal Hidden Input</label>
-          <input id="terminal-hidden" value={ currentLineInput } autoFocus={ props.onInput != null } onBlur={ e => e.target.focus() } onKeyDown={ handleKeyPress } readOnly={ true }/>
+          <input id="terminal-hidden" value={ currentLineInput } autoFocus={ props.onInput != null } onBlur={ e => e.target.focus() } onChange={ updateCurrentLineInput } onKeyDown={ handleEnter } />
         </div>
       </div>
     </div>

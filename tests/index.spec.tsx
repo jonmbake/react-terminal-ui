@@ -34,7 +34,7 @@ describe('Terminal component', () => {
     const onInput = jest.fn();
     render(<Terminal lineData={ [] } onInput={ onInput }/>);
     const hiddenInput = screen.getByLabelText('Terminal Hidden Input');
-    fireEvent.keyDown(hiddenInput, { key: 'a', code: 'KeyA' });
+    fireEvent.change(hiddenInput, { target: { value: 'a' } });
     expect(screen.getByText('a').className).toEqual('react-terminal-line react-terminal-input');
     screen.getByDisplayValue('a');
     expect(onInput.mock.calls.length).toEqual(0);
@@ -43,25 +43,14 @@ describe('Terminal component', () => {
     expect(scrollIntoViewFn).toHaveBeenCalled();
   });
 
-  test('Should delete input on Backspace', () => {
-    render(<Terminal lineData={ [] } onInput={ (input: string) => '' }/>);
-    const hiddenInput = screen.getByLabelText('Terminal Hidden Input');
-    fireEvent.keyDown(hiddenInput, { key: 'a', code: 'KeyA' });
-    fireEvent.keyDown(hiddenInput, { key: 'b', code: 'KeyB' });
-    fireEvent.keyDown(hiddenInput, { key: 'c', code: 'KeyC' });
-    fireEvent.keyDown(hiddenInput, { key: 'Backspace', code: 'Backspace' });
-    expect(screen.getByText('ab').className).toEqual('react-terminal-line react-terminal-input');
-    screen.getByDisplayValue('ab');
+  test('Should support changing color mode', () => {
+    const { container } = render(<Terminal colorMode={ ColorMode.Light } lineData={ [] } onInput={ (input: string) => '' }/>);
+    expect(container.querySelector('.react-terminal-wrapper.react-terminal-light')).not.toBeNull();
   });
-});
 
-test('Should support changing color mode', () => {
-  const { container } = render(<Terminal colorMode={ ColorMode.Light } lineData={ [] } onInput={ (input: string) => '' }/>);
-  expect(container.querySelector('.react-terminal-wrapper.react-terminal-light')).not.toBeNull();
-});
-
-test('Should refocus on hidden input on blur', () => {
-  const { container } = render(<Terminal lineData={ [] } onInput={ (input: string) => '' }/>)
-  screen.getByLabelText('Terminal Hidden Input').blur();
-  expect(container.ownerDocument.activeElement?.id).toEqual('terminal-hidden');
+  test('Should refocus on hidden input on blur', () => {
+    const { container } = render(<Terminal lineData={ [] } onInput={ (input: string) => '' }/>)
+    screen.getByLabelText('Terminal Hidden Input').blur();
+    expect(container.ownerDocument.activeElement?.id).toEqual('terminal-hidden');
+  });
 });
