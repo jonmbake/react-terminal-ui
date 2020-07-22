@@ -79,7 +79,10 @@
                 setCurrentLineInput('');
             }
         };
-        React.useEffect(function () { var _a; return (_a = lastInputRef === null || lastInputRef === void 0 ? void 0 : lastInputRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, [props.onInput]);
+        React.useEffect(function () { var _a; return (_a = lastInputRef === null || lastInputRef === void 0 ? void 0 : lastInputRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, [props.lineData.length]);
+        React.useEffect(function () {
+            document.onclick = function () { var _a; return (_a = document.getElementById("terminal-hidden")) === null || _a === void 0 ? void 0 : _a.focus(); };
+        });
         var renderedLineData = props.lineData.map(function (ld, i) {
             var classes = ['react-terminal-line'];
             if (ld.type === LineType.Input) {
@@ -99,7 +102,7 @@
             React__default.createElement("div", { className: "hidden-input-wrapper" },
                 React__default.createElement("div", { className: "hidden-input" },
                     React__default.createElement("label", { htmlFor: "terminal-hidden" }, "Terminal Hidden Input"),
-                    React__default.createElement("input", { id: "terminal-hidden", value: currentLineInput, autoFocus: props.onInput != null, onBlur: function (e) { return e.target.focus(); }, onChange: updateCurrentLineInput, onKeyDown: handleEnter })))));
+                    React__default.createElement("input", { id: "terminal-hidden", value: currentLineInput, autoFocus: props.onInput != null, onChange: updateCurrentLineInput, onKeyDown: handleEnter })))));
     };
 
     var css_248z$1 = "body {\n  padding-top: 5rem;\n}\n";
