@@ -26,12 +26,14 @@ import React from 'react';
 import Terminal, { ColorMode, LineType } from 'react-terminal-ui';
 
 const TerminalController = (props = {}) => {
-  // Should be state on this component
-  const terminalLineData = [{type: LineType.Output, value: 'Welcome to the React Terminal UI Demo!'}];
+  const [terminalLineData, setTerminalLineData] = useState([
+    {type: LineType.Output, value: 'Welcome to the React Terminal UI Demo!'},
+    {type: LineType.Input, value: 'Some previous input received'},
+  ]);
   // Terminal has 100% width by default so it should usually be wrapped in a container div
   return (
     <div className="container">
-      <Terminal name='React Terminal Usage Example' colorMode={ ColorMode.Light }  lineData={ terminalLineData } onInput={ terminalInput => console.log(`Terminal input received: '${ terminalInput }'`) }/>
+      <Terminal name='React Terminal Usage Example' colorMode={ ColorMode.Light }  lineData={ terminalLineData } onInput={ terminalInput => console.log(`New terminal input received: '${ terminalInput }'`) }/>
     </div>
   )
 });
@@ -42,8 +44,8 @@ const TerminalController = (props = {}) => {
 | Name          | Description |
 | ------------- | ------------- |
 | name          | Name of the terminal. Displays at the top of the rendered component. In the demo, the name is set to _React Terminal UI_ |
-| colorMode     | Terminal color mode-- either Light or Dark.  |
-| lineData      | Terminal line data to render. Line data with `LineType.Input` will display with a prompt before the line. |
+| colorMode     | Terminal color mode-- either Light or Dark. Defaults to Dark. |
+| lineData      | Terminal line data to render. Line type is either `Output` or `Input`; Line data with `LineType.Input` will display with a prompt before the line. |
 | onInput       | A callback function that is invoked when a user presses enter on the prompt. The function is passed the current prompt input. |
 | prompt        | The prompt character. Default to '$' |
 
