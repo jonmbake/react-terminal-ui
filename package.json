@@ -31,6 +31,7 @@
     "url": "https://github.com/jonmbake/react-terminal-ui/issues"
   },
   "homepage": "https://github.com/jonmbake/react-terminal-ui#readme",
+  "dependencies": {},
   "devDependencies": {
     "@testing-library/react": "^10.4.7",
     "@types/jest": "^26.0.4",
@@ -57,13 +58,5 @@
       "html"
     ],
     "coverageDirectory": "docs/coverage"
-  },
-  "dependencies": {
-    "@rollup/plugin-commonjs": "^14.0.0",
-    "@rollup/plugin-node-resolve": "^8.4.0",
-    "rollup": "^2.22.1",
-    "rollup-plugin-peer-deps-external": "^2.2.3",
-    "rollup-plugin-postcss": "^3.1.3",
-    "rollup-plugin-typescript2": "^0.27.1"
   }
 }

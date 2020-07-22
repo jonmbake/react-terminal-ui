@@ -47,8 +47,13 @@ const TerminalController = (props = {}) => {
 | onInput       | A callback function that is invoked when a user presses enter on the prompt. The function is passed the current prompt input. |
 | prompt        | The prompt character. Default to '$' |
 
+### Development
+
+Make sure to run `npm run install-peers` after `npm install` so peer dependencies are also installed.
+
 ## License
 
 [MIT](https://opensource.org/licenses/MIT)
 
 Terminal.js is also licensed under MIT, Copyright (C) 2017 Ines Montani.
+
