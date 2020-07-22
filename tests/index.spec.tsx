@@ -48,9 +48,9 @@ describe('Terminal component', () => {
     expect(container.querySelector('.react-terminal-wrapper.react-terminal-light')).not.toBeNull();
   });
 
-  test('Should refocus on hidden input on blur', () => {
+  test('Should refocus on hidden input on document click', () => {
     const { container } = render(<Terminal lineData={ [] } onInput={ (input: string) => '' }/>)
-    screen.getByLabelText('Terminal Hidden Input').blur();
+    fireEvent.click(container.ownerDocument, { button: 1 })
     expect(container.ownerDocument.activeElement?.id).toEqual('terminal-hidden');
   });
 });

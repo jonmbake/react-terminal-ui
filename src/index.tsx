@@ -35,7 +35,11 @@ const Terminal = (props: Props) => {
     }
   }
 
-  useEffect(() => lastInputRef?.current?.scrollIntoView({ behavior: "smooth" }), [props.onInput]);
+  useEffect(() => lastInputRef?.current?.scrollIntoView({ behavior: "smooth" }), [props.lineData.length]);
+
+  useEffect(() => {
+    document.onclick = () => document.getElementById("terminal-hidden")?.focus()
+  });
 
   const renderedLineData = props.lineData.map((ld, i) => {
     const classes = ['react-terminal-line'];
@@ -65,7 +69,7 @@ const Terminal = (props: Props) => {
       <div className="hidden-input-wrapper">
         <div className="hidden-input">
           <label htmlFor="terminal-hidden">Terminal Hidden Input</label>
-          <input id="terminal-hidden" value={ currentLineInput } autoFocus={ props.onInput != null } onBlur={ e => e.target.focus() } onChange={ updateCurrentLineInput } onKeyDown={ handleEnter } />
+          <input id="terminal-hidden" value={ currentLineInput } autoFocus={ props.onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleEnter } />
         </div>
       </div>
     </div>
