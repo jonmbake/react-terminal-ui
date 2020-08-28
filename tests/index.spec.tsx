@@ -35,7 +35,7 @@ describe('Terminal component', () => {
     render(<Terminal lineData={ [] } onInput={ onInput }/>);
     const hiddenInput = screen.getByLabelText('Terminal Hidden Input');
     fireEvent.change(hiddenInput, { target: { value: 'a' } });
-    expect(screen.getByText('a').className).toEqual('react-terminal-line react-terminal-input');
+    expect(screen.getByText('a').className).toEqual('react-terminal-line react-terminal-input react-terminal-active-input');
     screen.getByDisplayValue('a');
     expect(onInput.mock.calls.length).toEqual(0);
     fireEvent.keyDown(hiddenInput, { key: 'Enter', code: 'Enter' });
