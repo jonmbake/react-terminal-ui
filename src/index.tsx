@@ -53,7 +53,7 @@ const Terminal = (props: Props) => {
 
   if (props.onInput != null) {
     renderedLineData.push(
-      <span className="react-terminal-line react-terminal-input" data-terminal-prompt={ props.prompt || '$' } key={ props.lineData.length } ref={ lastInputRef }>{ currentLineInput }</span>,
+      <span className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ props.prompt || '$' } key={ props.lineData.length } ref={ lastInputRef }>{ currentLineInput }</span>,
     );
   }
 
