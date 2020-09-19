@@ -79,7 +79,7 @@
                 setCurrentLineInput('');
             }
         };
-        React.useEffect(function () { var _a; return (_a = lastInputRef === null || lastInputRef === void 0 ? void 0 : lastInputRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, [props.lineData.length]);
+        React.useEffect(function () { var _a; return (_a = lastInputRef === null || lastInputRef === void 0 ? void 0 : lastInputRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, [props.lineData]);
         React.useEffect(function () {
             document.onclick = function () { var _a; return (_a = document.getElementById("terminal-hidden")) === null || _a === void 0 ? void 0 : _a.focus(); };
         });
