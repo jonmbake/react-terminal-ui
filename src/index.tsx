@@ -22,7 +22,7 @@ export interface Props {
 const Terminal = (props: Props) => {
   const [currentLineInput, setCurrentLineInput] = useState('');
 
-  const lastInputRef = useRef<null | HTMLElement>(null)
+  const lastLineRef = useRef<null | HTMLElement>(null)
 
   const updateCurrentLineInput = (event: ChangeEvent<HTMLInputElement>) => {
     setCurrentLineInput(event.target.value);
@@ -35,8 +35,12 @@ const Terminal = (props: Props) => {
     }
   }
 
-  useEffect(() => lastInputRef?.current?.scrollIntoView({ behavior: "smooth" }), [props.lineData]);
+  // An effect that handles scrolling into view the last line of terminal input or output
+  useEffect(() => {
+    setTimeout(() => lastLineRef?.current?.scrollIntoView({ behavior: "smooth" }), 500);
+  }, [props.lineData.length]);
 
+  // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the document
   useEffect(() => {
     document.onclick = () => document.getElementById("terminal-hidden")?.focus()
   });
@@ -46,14 +50,20 @@ const Terminal = (props: Props) => {
     if (ld.type === LineType.Input) {
       classes.push('react-terminal-input');
     }
-    return (
-      <span className={ classes.join(' ') } key={ i }>{ ld.value }</span>
-    );
+    if (props.lineData.length === i + 1 && props.onInput == null) {
+      return (
+        <span className={ classes.join(' ') } key={ i } ref={ lastLineRef }>{ ld.value }</span>
+      );
+    } else {
+      return (
+        <span className={ classes.join(' ') } key={ i }>{ ld.value }</span>
+      );
+    }
   });
 
   if (props.onInput != null) {
     renderedLineData.push(
-      <span className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ props.prompt || '$' } key={ props.lineData.length } ref={ lastInputRef }>{ currentLineInput }</span>,
+      <span className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ props.prompt || '$' } key={ props.lineData.length } ref={ lastLineRef }>{ currentLineInput }</span>,
     );
   }
 

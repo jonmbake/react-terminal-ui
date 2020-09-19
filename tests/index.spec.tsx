@@ -2,6 +2,8 @@ import React from 'react';
 import Terminal, { LineType, ColorMode } from '../src/index';
 import { render, fireEvent, screen  } from '@testing-library/react';
 
+jest.useFakeTimers();
+
 describe('Terminal component', () => {
   let scrollIntoViewFn: (arg?: boolean | ScrollIntoViewOptions) => void;
 
@@ -40,6 +42,7 @@ describe('Terminal component', () => {
     expect(onInput.mock.calls.length).toEqual(0);
     fireEvent.keyDown(hiddenInput, { key: 'Enter', code: 'Enter' });
     expect(onInput).toHaveBeenCalledWith('a');
+    jest.runAllTimers();
     expect(scrollIntoViewFn).toHaveBeenCalled();
   });
 
