@@ -69,7 +69,7 @@
     })(ColorMode || (ColorMode = {}));
     var Terminal = function (props) {
         var _a = React.useState(''), currentLineInput = _a[0], setCurrentLineInput = _a[1];
-        var lastInputRef = React.useRef(null);
+        var lastLineRef = React.useRef(null);
         var updateCurrentLineInput = function (event) {
             setCurrentLineInput(event.target.value);
         };
@@ -79,7 +79,11 @@
                 setCurrentLineInput('');
             }
         };
-        React.useEffect(function () { var _a; return (_a = lastInputRef === null || lastInputRef === void 0 ? void 0 : lastInputRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, [props.lineData]);
+        // An effect that handles scrolling into view the last line of terminal input or output
+        React.useEffect(function () {
+            setTimeout(function () { var _a; return (_a = lastLineRef === null || lastLineRef === void 0 ? void 0 : lastLineRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, 500);
+        }, [props.lineData.length]);
+        // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the document
         React.useEffect(function () {
             document.onclick = function () { var _a; return (_a = document.getElementById("terminal-hidden")) === null || _a === void 0 ? void 0 : _a.focus(); };
         });
@@ -88,10 +92,15 @@
             if (ld.type === LineType.Input) {
                 classes.push('react-terminal-input');
             }
-            return (React__default.createElement("span", { className: classes.join(' '), key: i }, ld.value));
+            if (props.lineData.length === i + 1 && props.onInput == null) {
+                return (React__default.createElement("span", { className: classes.join(' '), key: i, ref: lastLineRef }, ld.value));
+            }
+            else {
+                return (React__default.createElement("span", { className: classes.join(' '), key: i }, ld.value));
+            }
         });
         if (props.onInput != null) {
-            renderedLineData.push(React__default.createElement("span", { className: "react-terminal-line react-terminal-input react-terminal-active-input", "data-terminal-prompt": props.prompt || '$', key: props.lineData.length, ref: lastInputRef }, currentLineInput));
+            renderedLineData.push(React__default.createElement("span", { className: "react-terminal-line react-terminal-input react-terminal-active-input", "data-terminal-prompt": props.prompt || '$', key: props.lineData.length, ref: lastLineRef }, currentLineInput));
         }
         var classes = ['react-terminal-wrapper'];
         if (props.colorMode === ColorMode.Light) {

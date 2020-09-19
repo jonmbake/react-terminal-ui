@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">97.44% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>38/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.14% </span>
+                <span class="strong">84.38% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>23/28</span>
+                <span class='fraction'>27/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">97.14% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>32/32</span>
+                <span class='fraction'>34/35</span>
             </div>
         
             
@@ -136,7 +136,17 @@
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
 <a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -173,7 +183,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -185,6 +199,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -239,7 +259,7 @@ export interface Props {
 const Terminal = (props: Props) =&gt; {
   const [currentLineInput, setCurrentLineInput] = useState('');
 &nbsp;
-  const lastInputRef = useRef&lt;null | HTMLElement&gt;(null)
+  const lastLineRef = useRef&lt;null | HTMLElement&gt;(null)
 &nbsp;
   const updateCurrentLineInput = (event: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
     setCurrentLineInput(event.target.value);
@@ -252,8 +272,12 @@ const Terminal = (props: Props) =&gt; {
     }
   }
 &nbsp;
-  useEffect(() =&gt; lastInputRef<span class="branch-0 cbranch-no" title="branch not covered" >?.c</span>urrent<span class="branch-0 cbranch-no" title="branch not covered" >?.s</span>crollIntoView({ behavior: "smooth" }), [props.lineData]);
+  // An effect that handles scrolling into view the last line of terminal input or output
+  useEffect(() =&gt; {
+    setTimeout(() =&gt; lastLineRef<span class="branch-0 cbranch-no" title="branch not covered" >?.c</span>urrent?.scrollIntoView({ behavior: "smooth" }), 500);
+  }, [props.lineData.length]);
 &nbsp;
+  // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the document
   useEffect(() =&gt; {
     document.onclick = () =&gt; document.getElementById("terminal-hidden")<span class="branch-0 cbranch-no" title="branch not covered" >?.f</span>ocus()
   });
@@ -263,14 +287,20 @@ const Terminal = (props: Props) =&gt; {
     if (ld.type === LineType.Input) {
       classes.push('react-terminal-input');
     }
-    return (
-      &lt;span className={ classes.join(' ') } key={ i }&gt;{ ld.value }&lt;/span&gt;
-    );
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (props.lineData.length === i + 1 &amp;&amp; props.onInput == null) {
+<span class="cstat-no" title="statement not covered" >      return (</span>
+        &lt;span className={ classes.join(' ') } key={ i } ref={ lastLineRef }&gt;{ ld.value }&lt;/span&gt;
+      );
+    } else {
+      return (
+        &lt;span className={ classes.join(' ') } key={ i }&gt;{ ld.value }&lt;/span&gt;
+      );
+    }
   });
 &nbsp;
   <span class="missing-if-branch" title="else path not taken" >E</span>if (props.onInput != null) {
     renderedLineData.push(
-      &lt;span className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ props.prompt || '$' } key={ props.lineData.length } ref={ lastInputRef }&gt;{ currentLineInput }&lt;/span&gt;,
+      &lt;span className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ props.prompt || '$' } key={ props.lineData.length } ref={ lastLineRef }&gt;{ currentLineInput }&lt;/span&gt;,
     );
   }
 &nbsp;
@@ -301,7 +331,7 @@ export default Terminal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Sep 19 2020 15:10:26 GMT+0000 (Coordinated Universal Time)
+                at Sat Sep 19 2020 20:26:48 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="prettify.js"></script>
