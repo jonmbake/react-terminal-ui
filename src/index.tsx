@@ -35,7 +35,7 @@ const Terminal = (props: Props) => {
     }
   }
 
-  useEffect(() => lastInputRef?.current?.scrollIntoView({ behavior: "smooth" }), [props.lineData.length]);
+  useEffect(() => lastInputRef?.current?.scrollIntoView({ behavior: "smooth" }), [props.lineData]);
 
   useEffect(() => {
     document.onclick = () => document.getElementById("terminal-hidden")?.focus()
