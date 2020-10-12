@@ -1,21 +1,37 @@
 name: CI
+
 on:
   push:
     branches:
       - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@master
+
     - name: Set up Node.js
       uses: actions/setup-node@master
       with:
         node-version: 12.0.0
-    - run: npm install && npm run install-peers
-    - run: npm test
-    - run: npm run build
+
+    - name: Install dependencies
+      run: npm install && npm run install-peers
+
+    - name: Run tests
+      run: npm test
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        config-file: ./.github/configs/codeql-config.yml
+
+    - name: Perform build
+      run: npm run build
+
     - name: Commit Docs
       uses: EndBug/add-and-commit@v4
       with:
@@ -24,12 +40,13 @@ jobs:
         message: Add generated docs
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Publish to NPM if version has been updated
       uses: pascalgn/npm-publish-action@4f4bf159e299f65d21cd1cbd96fc5d53228036df
-      with: # All of theses inputs are optional
+      with:
         tag_name: "v%s"
         tag_message: "v%s"
         commit_pattern: "^Release (\\S+)"
-      env: # More info about the environment variables in the README
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
