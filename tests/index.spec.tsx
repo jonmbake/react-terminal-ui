@@ -19,6 +19,11 @@ describe('Terminal component', () => {
     screen.getByLabelText('Terminal Hidden Input');
   });
 
+  test('Should not render prompt if onInput prop is null or not defined', () => {
+    const { container } = render(<Terminal lineData={ [] } onInput={ null }/>);
+    expect(container.querySelectorAll('span')).toHaveLength(0);
+  });
+
   test('Should render line data', () => {
     const lineData = [
       {type: LineType.Input, value: 'Some terminal input'},

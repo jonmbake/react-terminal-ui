@@ -1,5 +1,3 @@
 name: CodeQL config
-languages:
-  - javascript
 paths-ignore:
-  - docs
+  - docs 
