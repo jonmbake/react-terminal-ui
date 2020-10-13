@@ -32,6 +32,9 @@ jobs:
     - name: Perform build
       run: npm run build
 
+    - name: Copy type definition to docs
+      run:  cp ./build/index.d.ts ./docs/
+
     - name: Perform CodeQL analysis
       uses: github/codeql-action/analyze@v1
 

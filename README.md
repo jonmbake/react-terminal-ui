@@ -1,4 +1,7 @@
-![CI](https://github.com/jonmbake/react-terminal-ui/workflows/CI/badge.svg) [![Jest Code Coverage Report](jest-code-coverage-report.svg)](https://jonmbake.github.io/react-terminal-ui/coverage/) ![Types TypeScript](types-type-script.svg)
+[![CI](https://github.com/jonmbake/react-terminal-ui/workflows/CI/badge.svg)](https://github.com/jonmbake/react-terminal-ui/actions?query=workflow%3ACI)
+[![Jest Code Coverage Report](jest-code-coverage-report.svg)](https://jonmbake.github.io/react-terminal-ui/coverage/)
+[![Types TypeScript](types-type-script.svg)](https://github.com/jonmbake/react-terminal-ui/tree/master/docs/index.d.ts)
+[![CodeQL Scan](codeql-scan.svg)](https://github.com/jonmbake/react-terminal-ui/security/code-scanning?query=tool%3ACodeQL)
 
 # React Terminal UI
 
