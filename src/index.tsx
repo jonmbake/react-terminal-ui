@@ -50,6 +50,8 @@ const Terminal = (props: Props) => {
     if (ld.type === LineType.Input) {
       classes.push('react-terminal-input');
     }
+    // `lastLineRef` is used to ensure the terminal scrolls into view to the last line; make sure to add the ref to the last
+    // redendered line if input prompt is not shown, i.e. `onInput` is not declared; see 'render prompt' below
     if (props.lineData.length === i + 1 && props.onInput == null) {
       return (
         <span className={ classes.join(' ') } key={ i } ref={ lastLineRef }>{ ld.value }</span>
@@ -61,6 +63,7 @@ const Terminal = (props: Props) => {
     }
   });
 
+  // render prompt
   if (props.onInput != null) {
     renderedLineData.push(
       <span className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ props.prompt || '$' } key={ props.lineData.length } ref={ lastLineRef }>{ currentLineInput }</span>,
