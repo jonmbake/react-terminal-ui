@@ -32,6 +32,9 @@ jobs:
     - name: Perform build
       run: npm run build
 
+    - name: Perform CodeQL analysis
+      uses: github/codeql-action/analyze@v1
+
     - name: Commit Docs
       uses: EndBug/add-and-commit@v4
       with:
