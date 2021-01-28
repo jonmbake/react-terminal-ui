@@ -14,6 +14,7 @@ export enum ColorMode {
 export interface Props {
   name?: string
   prompt?: string
+  autoFocus?: boolean;
   colorMode?: ColorMode
   lineData: Array<{type: LineType, value: string}>
   onInput: ((input: string) => void) | null | undefined
@@ -42,7 +43,9 @@ const Terminal = (props: Props) => {
 
   // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the document
   useEffect(() => {
-    document.onclick = () => document.getElementById("terminal-hidden")?.focus()
+    if(props.autoFocus) {
+        document.onclick = () => document.getElementById("terminal-hidden")?.focus()
+    }
   });
 
   const renderedLineData = props.lineData.map((ld, i) => {

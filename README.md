@@ -51,6 +51,7 @@ const TerminalController = (props = {}) => {
 | lineData      | Terminal line data to render. Line type is either `Output` or `Input`; Line data with `LineType.Input` will display with a prompt before the line. |
 | onInput       | A callback function that is invoked when a user presses enter on the prompt. The function is passed the current prompt input. |
 | prompt        | The prompt character. Default to '$' |
+| autoFocus     | Make the terminal focus automatic when click on the page |
 
 ### Development
 
