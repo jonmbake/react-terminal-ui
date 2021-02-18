@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  pull_request:
   push:
     branches:
       - master
@@ -11,7 +12,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Set up Node.js
       uses: actions/setup-node@master
@@ -33,6 +34,7 @@ jobs:
       run: npm run build
 
     - name: Copy type definition to docs
+      if: github.event_name != 'pull_request'
       run:  cp ./build/index.d.ts ./docs/
 
     - name: Perform CodeQL analysis
@@ -40,6 +42,7 @@ jobs:
 
     - name: Commit Docs
       uses: EndBug/add-and-commit@v4
+      if: github.event_name != 'pull_request'
       with:
         add: docs
         force: true
@@ -49,6 +52,7 @@ jobs:
 
     - name: Publish to NPM if version has been updated
       uses: pascalgn/npm-publish-action@4f4bf159e299f65d21cd1cbd96fc5d53228036df
+      if: github.event_name != 'pull_request'
       with:
         tag_name: "v%s"
         tag_message: "v%s"
