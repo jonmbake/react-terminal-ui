@@ -40,9 +40,20 @@ const Terminal = (props: Props) => {
     setTimeout(() => lastLineRef?.current?.scrollIntoView({ behavior: "smooth" }), 500);
   }, [props.lineData.length]);
 
-  // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the document
+  // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
   useEffect(() => {
-    document.onclick = () => document.getElementById("terminal-hidden")?.focus()
+    // keep reference to listeners so we can perform cleanup
+    const elListeners: { terminalEl: Element; listener: EventListenerOrEventListenerObject }[] = [];
+    for (const terminalEl of document.getElementsByClassName('react-terminal-wrapper')) {
+      const listener = () => (terminalEl?.querySelector('.terminal-hidden') as HTMLElement)?.focus();
+      terminalEl?.addEventListener('click', listener);
+      elListeners.push({ terminalEl, listener });
+    }
+    return function cleanup () {
+      elListeners.forEach(elListener => {
+        elListener.terminalEl.removeEventListener('click', elListener.listener);
+      });
+    }
   });
 
   const renderedLineData = props.lineData.map((ld, i) => {
@@ -81,8 +92,7 @@ const Terminal = (props: Props) => {
       </div>
       <div className="hidden-input-wrapper">
         <div className="hidden-input">
-          <label htmlFor="terminal-hidden">Terminal Hidden Input</label>
-          <input id="terminal-hidden" value={ currentLineInput } autoFocus={ props.onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleEnter } />
+          <input className="terminal-hidden" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ props.onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleEnter } />
         </div>
       </div>
     </div>

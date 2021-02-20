@@ -16,7 +16,7 @@ describe('Terminal component', () => {
     const { container } = render(<Terminal lineData={ [] } onInput={ (input: string) => '' }/>);
     expect(container.querySelectorAll('span')).toHaveLength(1);
     expect(container.querySelector('span.react-terminal-line.react-terminal-active-input[data-terminal-prompt="$"]')).not.toBeNull();
-    screen.getByLabelText('Terminal Hidden Input');
+    screen.getByPlaceholderText('Terminal Hidden Input');
   });
 
   test('Should not render prompt if onInput prop is null or not defined', () => {
@@ -43,7 +43,7 @@ describe('Terminal component', () => {
   test('Should accept input and scroll into view', () => {
     const onInput = jest.fn();
     render(<Terminal lineData={ [] } onInput={ onInput }/>);
-    const hiddenInput = screen.getByLabelText('Terminal Hidden Input');
+    const hiddenInput = screen.getByPlaceholderText('Terminal Hidden Input');
     fireEvent.change(hiddenInput, { target: { value: 'a' } });
     expect(screen.getByText('a').className).toEqual('react-terminal-line react-terminal-input react-terminal-active-input');
     screen.getByDisplayValue('a');
@@ -57,11 +57,5 @@ describe('Terminal component', () => {
   test('Should support changing color mode', () => {
     const { container } = render(<Terminal colorMode={ ColorMode.Light } lineData={ [] } onInput={ (input: string) => '' }/>);
     expect(container.querySelector('.react-terminal-wrapper.react-terminal-light')).not.toBeNull();
-  });
-
-  test('Should refocus on hidden input on document click', () => {
-    const { container } = render(<Terminal lineData={ [] } onInput={ (input: string) => '' }/>)
-    fireEvent.click(container.ownerDocument, { button: 1 })
-    expect(container.ownerDocument.activeElement?.id).toEqual('terminal-hidden');
   });
 });
