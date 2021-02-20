@@ -19,12 +19,39 @@
     PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
 
-    function __spreadArrays() {
-        for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-        for (var r = Array(s), k = 0, i = 0; i < il; i++)
-            for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-                r[k] = a[j];
-        return r;
+    function __values(o) {
+        var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+        if (m) return m.call(o);
+        if (o && typeof o.length === "number") return {
+            next: function () {
+                if (o && i >= o.length) o = void 0;
+                return { value: o && o[i++], done: !o };
+            }
+        };
+        throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+    }
+
+    function __read(o, n) {
+        var m = typeof Symbol === "function" && o[Symbol.iterator];
+        if (!m) return o;
+        var i = m.call(o), r, ar = [], e;
+        try {
+            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+        }
+        catch (error) { e = { error: error }; }
+        finally {
+            try {
+                if (r && !r.done && (m = i["return"])) m.call(i);
+            }
+            finally { if (e) throw e.error; }
+        }
+        return ar;
+    }
+
+    function __spread() {
+        for (var ar = [], i = 0; i < arguments.length; i++)
+            ar = ar.concat(__read(arguments[i]));
+        return ar;
     }
 
     function styleInject(css, ref) {
@@ -54,7 +81,7 @@
       }
     }
 
-    var css_248z = "/**\n * Modfied version of [termynal.js](https://github.com/ines/termynal/blob/master/termynal.css).\n *\n * @author Ines Montani <ines@ines.io>\n * @version 0.0.1\n * @license MIT\n */\n .react-terminal-wrapper {\n  width: 100%;\n  background: #252a33;\n  color: #eee;\n  font-size: 18px;\n  font-family: 'Fira Mono', Consolas, Menlo, Monaco, 'Courier New', Courier, monospace;\n  border-radius: 4px;\n  padding: 75px 45px 35px;\n  position: relative;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n }\n\n.react-terminal {\n  height: 600px;\n  overflow: auto;\n  display: flex;\n  flex-direction: column;\n}\n\n.react-terminal-wrapper.react-terminal-light {\n  background: #ddd;\n  color: #1a1e24;\n}\n\n.react-terminal-wrapper:before {\n  content: '';\n  position: absolute;\n  top: 15px;\n  left: 15px;\n  display: inline-block;\n  width: 15px;\n  height: 15px;\n  border-radius: 50%;\n  /* A little hack to display the window buttons in one pseudo element. */\n  background: #d9515d;\n  -webkit-box-shadow: 25px 0 0 #f4c025, 50px 0 0 #3ec930;\n          box-shadow: 25px 0 0 #f4c025, 50px 0 0 #3ec930;\n}\n\n.react-terminal-wrapper:after {\n  content: attr(data-terminal-name);\n  position: absolute;\n  color: #a2a2a2;\n  top: 5px;\n  left: 0;\n  width: 100%;\n  text-align: center;\n}\n\n.react-terminal-wrapper.react-terminal-light:after {\n  color: #D76D77;\n}\n\n.react-terminal-line {\n  display: block;\n  line-height: 1.5;\n}\n\n.react-terminal-line:before {\n  /* Set up defaults and ensure empty lines are displayed. */\n  content: '';\n  display: inline-block;\n  vertical-align: middle;\n  color: #a2a2a2;\n}\n\n.react-terminal-light .react-terminal-line:before {\n  color: #D76D77;\n}\n\n.react-terminal-input:before {\n  margin-right: 0.75em;\n  content: '$';\n}\n\n.react-terminal-input[data-terminal-prompt]:before {\n  content: attr(data-terminal-prompt);\n}\n\n.react-terminal-active-input:after {\n  content: '▋';\n  font-family: monospace;\n  margin-left: 0.2em;\n  -webkit-animation: blink 1s infinite;\n          animation: blink 1s infinite;\n}\n\n/* Cursor animation */\n\n@-webkit-keyframes blink {\n  50% {\n      opacity: 0;\n  }\n}\n\n@keyframes blink {\n  50% {\n      opacity: 0;\n  }\n}\n\n.hidden-input-wrapper {\n  overflow: hidden;\n  position: relative;\n}\n\n.hidden-input {\n    position: absolute;\n}\n/* .react-terminal-progress {\n  display: flex;\n  margin: .5rem 0;\n}\n\n.react-terminal-progress-bar {\n  background-color: #fff;\n  border-radius: .25rem;\n  width: 25%;\n}\n\n.react-terminal-wrapper.react-terminal-light .react-terminal-progress-bar {\n  background-color: #000;\n} */\n";
+    var css_248z = "/**\n * Modfied version of [termynal.js](https://github.com/ines/termynal/blob/master/termynal.css).\n *\n * @author Ines Montani <ines@ines.io>\n * @version 0.0.1\n * @license MIT\n */\n .react-terminal-wrapper {\n  width: 100%;\n  background: #252a33;\n  color: #eee;\n  font-size: 18px;\n  font-family: 'Fira Mono', Consolas, Menlo, Monaco, 'Courier New', Courier, monospace;\n  border-radius: 4px;\n  padding: 75px 45px 35px;\n  position: relative;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n }\n\n.react-terminal {\n  height: 600px;\n  overflow: auto;\n  display: flex;\n  flex-direction: column;\n}\n\n.react-terminal-wrapper.react-terminal-light {\n  background: #ddd;\n  color: #1a1e24;\n}\n\n.react-terminal-wrapper:before {\n  content: '';\n  position: absolute;\n  top: 15px;\n  left: 15px;\n  display: inline-block;\n  width: 15px;\n  height: 15px;\n  border-radius: 50%;\n  /* A little hack to display the window buttons in one pseudo element. */\n  background: #d9515d;\n  -webkit-box-shadow: 25px 0 0 #f4c025, 50px 0 0 #3ec930;\n          box-shadow: 25px 0 0 #f4c025, 50px 0 0 #3ec930;\n}\n\n.react-terminal-wrapper:after {\n  content: attr(data-terminal-name);\n  position: absolute;\n  color: #a2a2a2;\n  top: 5px;\n  left: 0;\n  width: 100%;\n  text-align: center;\n}\n\n.react-terminal-wrapper.react-terminal-light:after {\n  color: #D76D77;\n}\n\n.react-terminal-line {\n  display: block;\n  line-height: 1.5;\n}\n\n.react-terminal-line:before {\n  /* Set up defaults and ensure empty lines are displayed. */\n  content: '';\n  display: inline-block;\n  vertical-align: middle;\n  color: #a2a2a2;\n}\n\n.react-terminal-light .react-terminal-line:before {\n  color: #D76D77;\n}\n\n.react-terminal-input:before {\n  margin-right: 0.75em;\n  content: '$';\n}\n\n.react-terminal-input[data-terminal-prompt]:before {\n  content: attr(data-terminal-prompt);\n}\n\n.react-terminal-wrapper:focus-within .react-terminal-active-input:after {\n  content: '▋';\n  font-family: monospace;\n  margin-left: 0.2em;\n  -webkit-animation: blink 1s infinite;\n          animation: blink 1s infinite;\n}\n\n/* Cursor animation */\n\n@-webkit-keyframes blink {\n  50% {\n      opacity: 0;\n  }\n}\n\n@keyframes blink {\n  50% {\n      opacity: 0;\n  }\n}\n\n.hidden-input-wrapper {\n  overflow: hidden;\n  position: relative;\n}\n\n.hidden-input {\n    position: absolute;\n}\n/* .react-terminal-progress {\n  display: flex;\n  margin: .5rem 0;\n}\n\n.react-terminal-progress-bar {\n  background-color: #fff;\n  border-radius: .25rem;\n  width: 25%;\n}\n\n.react-terminal-wrapper.react-terminal-light .react-terminal-progress-bar {\n  background-color: #000;\n} */\n";
     styleInject(css_248z);
 
     var LineType;
@@ -68,7 +95,7 @@
         ColorMode[ColorMode["Dark"] = 1] = "Dark";
     })(ColorMode || (ColorMode = {}));
     var Terminal = function (props) {
-        var _a = React.useState(''), currentLineInput = _a[0], setCurrentLineInput = _a[1];
+        var _a = __read(React.useState(''), 2), currentLineInput = _a[0], setCurrentLineInput = _a[1];
         var lastLineRef = React.useRef(null);
         var updateCurrentLineInput = function (event) {
             setCurrentLineInput(event.target.value);
@@ -83,9 +110,34 @@
         React.useEffect(function () {
             setTimeout(function () { var _a; return (_a = lastLineRef === null || lastLineRef === void 0 ? void 0 : lastLineRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, 500);
         }, [props.lineData.length]);
-        // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the document
+        // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
         React.useEffect(function () {
-            document.onclick = function () { var _a; return (_a = document.getElementById("terminal-hidden")) === null || _a === void 0 ? void 0 : _a.focus(); };
+            var e_1, _a;
+            // keep reference to listeners so we can perform cleanup
+            var elListeners = [];
+            var _loop_1 = function (terminalEl) {
+                var listener = function () { var _a; return (_a = terminalEl === null || terminalEl === void 0 ? void 0 : terminalEl.querySelector('.terminal-hidden')) === null || _a === void 0 ? void 0 : _a.focus(); };
+                terminalEl === null || terminalEl === void 0 ? void 0 : terminalEl.addEventListener('click', listener);
+                elListeners.push({ terminalEl: terminalEl, listener: listener });
+            };
+            try {
+                for (var _b = __values(document.getElementsByClassName('react-terminal-wrapper')), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var terminalEl = _c.value;
+                    _loop_1(terminalEl);
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+            return function cleanup() {
+                elListeners.forEach(function (elListener) {
+                    elListener.terminalEl.removeEventListener('click', elListener.listener);
+                });
+            };
         });
         var renderedLineData = props.lineData.map(function (ld, i) {
             var classes = ['react-terminal-line'];
@@ -113,29 +165,28 @@
             React__default.createElement("div", { className: "react-terminal" }, renderedLineData),
             React__default.createElement("div", { className: "hidden-input-wrapper" },
                 React__default.createElement("div", { className: "hidden-input" },
-                    React__default.createElement("label", { htmlFor: "terminal-hidden" }, "Terminal Hidden Input"),
-                    React__default.createElement("input", { id: "terminal-hidden", value: currentLineInput, autoFocus: props.onInput != null, onChange: updateCurrentLineInput, onKeyDown: handleEnter })))));
+                    React__default.createElement("input", { className: "terminal-hidden", placeholder: "Terminal Hidden Input", value: currentLineInput, autoFocus: props.onInput != null, onChange: updateCurrentLineInput, onKeyDown: handleEnter })))));
     };
 
     var css_248z$1 = "body {\n  padding-top: 5rem;\n}\n";
     styleInject(css_248z$1);
 
     var TerminalController = function (props) {
-        var _a = React.useState(ColorMode.Dark), colorMode = _a[0], setColorMode = _a[1];
-        var _b = React.useState([
+        var _a = __read(React.useState(ColorMode.Dark), 2), colorMode = _a[0], setColorMode = _a[1];
+        var _b = __read(React.useState([
             { type: LineType.Output, value: 'Welcome to the React Terminal UI Demo!' },
             { type: LineType.Output, value: '' },
             { type: LineType.Output, value: 'The following example commands are provided:' },
             { type: LineType.Output, value: '\'view-source\' will navigate to the React Terminal UI github source.' },
             { type: LineType.Output, value: '\'view-react-docs\' will naviagate to the react docs.' },
             { type: LineType.Output, value: '\'clear\' will clear the terminal.' },
-        ]), lineData = _b[0], setLineData = _b[1];
+        ]), 2), lineData = _b[0], setLineData = _b[1];
         function toggleColorMode(e) {
             e.preventDefault();
             setColorMode(colorMode === ColorMode.Light ? ColorMode.Dark : ColorMode.Light);
         }
         function onInput(input) {
-            var ld = __spreadArrays(lineData);
+            var ld = __spread(lineData);
             ld.push({ type: LineType.Input, value: input });
             if (input.toLocaleLowerCase() === 'view-source') {
                 window.open('https://github.com/jonmbake/react-terminal-ui', '_blank');
