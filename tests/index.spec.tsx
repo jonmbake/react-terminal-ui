@@ -1,6 +1,8 @@
 import React from 'react';
 import Terminal, { LineType, ColorMode } from '../src/index';
-import { render, fireEvent, screen  } from '@testing-library/react';
+import { render, fireEvent, screen, getByText  } from '@testing-library/react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-dom/test-utils';
 
 jest.useFakeTimers();
 
@@ -57,5 +59,16 @@ describe('Terminal component', () => {
   test('Should support changing color mode', () => {
     const { container } = render(<Terminal colorMode={ ColorMode.Light } lineData={ [] } onInput={ (input: string) => '' }/>);
     expect(container.querySelector('.react-terminal-wrapper.react-terminal-light')).not.toBeNull();
+  });
+
+  test('Should focus if onInput is defined', () => {
+    const { container } = render(<Terminal lineData={ [] } onInput={ (input: string) => '' }/>)
+    expect(container.ownerDocument.activeElement?.nodeName).toEqual('INPUT');
+    expect(container.ownerDocument.activeElement?.className).toEqual('terminal-hidden');
+  });
+
+  test('Should not focus if onInput is undefined', () => {
+    const { container } = render(<Terminal lineData={ [] } />)
+    expect(container.ownerDocument.activeElement?.nodeName).toEqual('BODY');
   });
 });
