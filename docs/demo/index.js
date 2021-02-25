@@ -94,25 +94,29 @@
         ColorMode[ColorMode["Light"] = 0] = "Light";
         ColorMode[ColorMode["Dark"] = 1] = "Dark";
     })(ColorMode || (ColorMode = {}));
-    var Terminal = function (props) {
-        var _a = __read(React.useState(''), 2), currentLineInput = _a[0], setCurrentLineInput = _a[1];
+    var Terminal = function (_a) {
+        var name = _a.name, prompt = _a.prompt, colorMode = _a.colorMode, lineData = _a.lineData, onInput = _a.onInput;
+        var _b = __read(React.useState(''), 2), currentLineInput = _b[0], setCurrentLineInput = _b[1];
         var lastLineRef = React.useRef(null);
         var updateCurrentLineInput = function (event) {
             setCurrentLineInput(event.target.value);
         };
         var handleEnter = function (event) {
-            if (props.onInput != null && event.key === 'Enter') {
-                props.onInput(currentLineInput);
+            if (onInput != null && event.key === 'Enter') {
+                onInput(currentLineInput);
                 setCurrentLineInput('');
             }
         };
         // An effect that handles scrolling into view the last line of terminal input or output
         React.useEffect(function () {
             setTimeout(function () { var _a; return (_a = lastLineRef === null || lastLineRef === void 0 ? void 0 : lastLineRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, 500);
-        }, [props.lineData.length]);
+        }, [lineData.length]);
         // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
         React.useEffect(function () {
             var e_1, _a;
+            if (onInput == null) {
+                return;
+            }
             // keep reference to listeners so we can perform cleanup
             var elListeners = [];
             var _loop_1 = function (terminalEl) {
@@ -138,15 +142,15 @@
                     elListener.terminalEl.removeEventListener('click', elListener.listener);
                 });
             };
-        });
-        var renderedLineData = props.lineData.map(function (ld, i) {
+        }, [onInput]);
+        var renderedLineData = lineData.map(function (ld, i) {
             var classes = ['react-terminal-line'];
             if (ld.type === LineType.Input) {
                 classes.push('react-terminal-input');
             }
             // `lastLineRef` is used to ensure the terminal scrolls into view to the last line; make sure to add the ref to the last
             // redendered line if input prompt is not shown, i.e. `onInput` is not declared; see 'render prompt' below
-            if (props.lineData.length === i + 1 && props.onInput == null) {
+            if (lineData.length === i + 1 && onInput == null) {
                 return (React__default.createElement("span", { className: classes.join(' '), key: i, ref: lastLineRef }, ld.value));
             }
             else {
@@ -154,18 +158,18 @@
             }
         });
         // render prompt
-        if (props.onInput != null) {
-            renderedLineData.push(React__default.createElement("span", { className: "react-terminal-line react-terminal-input react-terminal-active-input", "data-terminal-prompt": props.prompt || '$', key: props.lineData.length, ref: lastLineRef }, currentLineInput));
+        if (onInput != null) {
+            renderedLineData.push(React__default.createElement("span", { className: "react-terminal-line react-terminal-input react-terminal-active-input", "data-terminal-prompt": prompt || '$', key: lineData.length, ref: lastLineRef }, currentLineInput));
         }
         var classes = ['react-terminal-wrapper'];
-        if (props.colorMode === ColorMode.Light) {
+        if (colorMode === ColorMode.Light) {
             classes.push('react-terminal-light');
         }
-        return (React__default.createElement("div", { className: classes.join(' '), "data-terminal-name": props.name },
+        return (React__default.createElement("div", { className: classes.join(' '), "data-terminal-name": name },
             React__default.createElement("div", { className: "react-terminal" }, renderedLineData),
             React__default.createElement("div", { className: "hidden-input-wrapper" },
                 React__default.createElement("div", { className: "hidden-input" },
-                    React__default.createElement("input", { className: "terminal-hidden", placeholder: "Terminal Hidden Input", value: currentLineInput, autoFocus: props.onInput != null, onChange: updateCurrentLineInput, onKeyDown: handleEnter })))));
+                    React__default.createElement("input", { className: "terminal-hidden", placeholder: "Terminal Hidden Input", value: currentLineInput, autoFocus: onInput != null, onChange: updateCurrentLineInput, onKeyDown: handleEnter })))));
     };
 
     var css_248z$1 = "body {\n  padding-top: 5rem;\n}\n";
