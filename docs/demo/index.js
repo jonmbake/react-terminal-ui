@@ -95,8 +95,8 @@
         ColorMode[ColorMode["Dark"] = 1] = "Dark";
     })(ColorMode || (ColorMode = {}));
     var Terminal = function (_a) {
-        var name = _a.name, prompt = _a.prompt, colorMode = _a.colorMode, lineData = _a.lineData, onInput = _a.onInput;
-        var _b = __read(React.useState(''), 2), currentLineInput = _b[0], setCurrentLineInput = _b[1];
+        var name = _a.name, prompt = _a.prompt, colorMode = _a.colorMode, lineData = _a.lineData, onInput = _a.onInput, _b = _a.startingInputValue, startingInputValue = _b === void 0 ? "" : _b;
+        var _c = __read(React.useState(''), 2), currentLineInput = _c[0], setCurrentLineInput = _c[1];
         var lastLineRef = React.useRef(null);
         var updateCurrentLineInput = function (event) {
             setCurrentLineInput(event.target.value);
@@ -107,6 +107,9 @@
                 setCurrentLineInput('');
             }
         };
+        React.useEffect(function () {
+            setCurrentLineInput(startingInputValue.trim());
+        }, [startingInputValue]);
         // An effect that handles scrolling into view the last line of terminal input or output
         React.useEffect(function () {
             setTimeout(function () { var _a; return (_a = lastLineRef === null || lastLineRef === void 0 ? void 0 : lastLineRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, 500);

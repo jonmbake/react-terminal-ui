@@ -17,6 +17,7 @@ export interface Props {
         value: string;
     }>;
     onInput?: ((input: string) => void) | null | undefined;
+    startingInputValue?: string;
 }
-declare const Terminal: ({ name, prompt, colorMode, lineData, onInput }: Props) => JSX.Element;
+declare const Terminal: ({ name, prompt, colorMode, lineData, onInput, startingInputValue }: Props) => JSX.Element;
 export default Terminal;
