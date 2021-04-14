@@ -16,10 +16,11 @@ export interface Props {
   prompt?: string
   colorMode?: ColorMode
   lineData: Array<{type: LineType, value: string}>
-  onInput?: ((input: string) => void) | null | undefined
+  onInput?: ((input: string) => void) | null | undefined,
+  startingInputValue?: string
 }
 
-const Terminal = ({name, prompt, colorMode, lineData, onInput}: Props) => {
+const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValue = ""}: Props) => {
   const [currentLineInput, setCurrentLineInput] = useState('');
 
   const lastLineRef = useRef<null | HTMLElement>(null)
@@ -34,6 +35,10 @@ const Terminal = ({name, prompt, colorMode, lineData, onInput}: Props) => {
       setCurrentLineInput('');
     }
   }
+
+  useEffect(() => {
+    setCurrentLineInput(startingInputValue.trim());
+  }, [startingInputValue]);
 
   // An effect that handles scrolling into view the last line of terminal input or output
   useEffect(() => {

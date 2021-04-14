@@ -71,4 +71,11 @@ describe('Terminal component', () => {
     const { container } = render(<Terminal lineData={ [] } />)
     expect(container.ownerDocument.activeElement?.nodeName).toEqual('BODY');
   });
+
+  test('Should take starting input value', () => {
+    render(<Terminal lineData={ [] } onInput={ (input: string) => '' } startingInputValue="cat file.txt " />)
+    const hiddenInput = screen.getByPlaceholderText('Terminal Hidden Input');
+    const renderedLine = screen.getByText('cat file.txt');
+    expect(renderedLine.className).toContain('react-terminal-line');
+  });
 });

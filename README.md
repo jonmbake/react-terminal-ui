@@ -44,13 +44,14 @@ const TerminalController = (props = {}) => {
 
 ## Component Props
 
-| Name          | Description |
-| ------------- | ------------- |
-| name          | Name of the terminal. Displays at the top of the rendered component. In the demo, the name is set to _React Terminal UI_ |
-| colorMode     | Terminal color mode-- either Light or Dark. Defaults to Dark. |
-| lineData      | Terminal line data to render. Line type is either `Output` or `Input`; Line data with `LineType.Input` will display with a prompt before the line. |
-| onInput       | A callback function that is invoked when a user presses enter on the prompt. The function is passed the current prompt input. |
-| prompt        | The prompt character. Default to '$' |
+| Name                | Description |
+| ------------------- | ------------- |
+| name                | Name of the terminal. Displays at the top of the rendered component. In the demo, the name is set to _React Terminal UI_ |
+| colorMode           | Terminal color mode-- either Light or Dark. Defaults to Dark. |
+| lineData            | Terminal line data to render. Line type is either `Output` or `Input`; Line data with `LineType.Input` will display with a prompt before the line. |
+| onInput             | A callback function that is invoked when a user presses enter on the prompt. The function is passed the current prompt input. |
+| startingInputValue  | Starting input value. If this prop changes, any user entered input will be overriden by this value. Defaults to the empty string (""). |
+| prompt              | The prompt character. Defaults to '$' |
 
 ### Development
 
