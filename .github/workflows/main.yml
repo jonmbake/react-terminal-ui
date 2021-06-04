@@ -45,8 +45,7 @@ jobs:
       if: github.event_name != 'pull_request'
       with:
         branch: gh-pages
-        add: docs
-        force: true
+        add: './docs/** --force'
         message: Add generated docs
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
