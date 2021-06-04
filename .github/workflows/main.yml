@@ -40,15 +40,12 @@ jobs:
     - name: Perform CodeQL analysis
       uses: github/codeql-action/analyze@v1
 
-    - name: Commit Docs
-      uses: EndBug/add-and-commit@v7
+    - name: Publish github pages docs
+      uses: peaceiris/actions-gh-pages@v3
       if: github.event_name != 'pull_request'
       with:
-        branch: gh-pages
-        add: './docs/** --force'
-        message: Add generated docs
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
 
     - name: Publish to NPM if version has been updated
       uses: pascalgn/npm-publish-action@4f4bf159e299f65d21cd1cbd96fc5d53228036df
