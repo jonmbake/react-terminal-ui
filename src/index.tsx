@@ -41,8 +41,12 @@ const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValu
   }, [startingInputValue]);
 
   // An effect that handles scrolling into view the last line of terminal input or output
+  const performScrolldown = useRef(false);
   useEffect(() => {
-    setTimeout(() => lastLineRef?.current?.scrollIntoView({ behavior: "smooth" }), 500);
+    if (performScrolldown.current) { // skip scrolldown when the component first loads
+      setTimeout(() => lastLineRef?.current?.scrollIntoView({ behavior: "smooth" }), 500);
+    }
+    performScrolldown.current = true;
   }, [lineData.length]);
 
   // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
