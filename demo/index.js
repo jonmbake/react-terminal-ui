@@ -111,8 +111,12 @@
             setCurrentLineInput(startingInputValue.trim());
         }, [startingInputValue]);
         // An effect that handles scrolling into view the last line of terminal input or output
+        var performScrolldown = React.useRef(false);
         React.useEffect(function () {
-            setTimeout(function () { var _a; return (_a = lastLineRef === null || lastLineRef === void 0 ? void 0 : lastLineRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, 500);
+            if (performScrolldown.current) { // skip scrolldown when the component first loads
+                setTimeout(function () { var _a; return (_a = lastLineRef === null || lastLineRef === void 0 ? void 0 : lastLineRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: "smooth" }); }, 500);
+            }
+            performScrolldown.current = true;
         }, [lineData.length]);
         // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
         React.useEffect(function () {
