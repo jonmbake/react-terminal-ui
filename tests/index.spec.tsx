@@ -42,9 +42,19 @@ describe('Terminal component', () => {
     expect(renderedLine.className).toEqual('react-terminal-line react-terminal-input');
   });
 
+  test('Input prompt should not scroll into view when component first loads', () => {
+    const lineData = [
+      {type: LineType.Input, value: 'Some terminal input'},
+      {type: LineType.Output, value: 'Some terminal output'}
+   ];
+    render(<Terminal lineData={ lineData } onInput={ (input: string) => '' }/>);
+    jest.runAllTimers();
+    expect(scrollIntoViewFn).not.toHaveBeenCalled();
+  });
+
   test('Should accept input and scroll into view', () => {
     const onInput = jest.fn();
-    render(<Terminal lineData={ [] } onInput={ onInput }/>);
+    const { rerender } = render(<Terminal lineData={ [] } onInput={ onInput }/>);
     const hiddenInput = screen.getByPlaceholderText('Terminal Hidden Input');
     fireEvent.change(hiddenInput, { target: { value: 'a' } });
     expect(screen.getByText('a').className).toEqual('react-terminal-line react-terminal-input react-terminal-active-input');
@@ -52,8 +62,9 @@ describe('Terminal component', () => {
     expect(onInput.mock.calls.length).toEqual(0);
     fireEvent.keyDown(hiddenInput, { key: 'Enter', code: 'Enter' });
     expect(onInput).toHaveBeenCalledWith('a');
+    rerender(<Terminal lineData={ [{type: LineType.Input, value: 'a'}] } onInput={ onInput }/>)
     jest.runAllTimers();
-    expect(scrollIntoViewFn).toHaveBeenCalled();
+    expect(scrollIntoViewFn).toHaveBeenCalledTimes(1);
   });
 
   test('Should support changing color mode', () => {
