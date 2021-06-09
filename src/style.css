@@ -113,8 +113,9 @@
 }
 
 .hidden-input {
-    position: absolute;
+    position: fixed;
 }
+
 /* .react-terminal-progress {
   display: flex;
   margin: .5rem 0;

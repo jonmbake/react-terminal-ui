@@ -44,7 +44,7 @@ const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValu
   const performScrolldown = useRef(false);
   useEffect(() => {
     if (performScrolldown.current) { // skip scrolldown when the component first loads
-      setTimeout(() => lastLineRef?.current?.scrollIntoView({ behavior: "smooth" }), 500);
+      setTimeout(() => lastLineRef?.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 500);
     }
     performScrolldown.current = true;
   }, [lineData.length]);
