@@ -75,7 +75,7 @@ describe('Terminal component', () => {
   test('Should focus if onInput is defined', () => {
     const { container } = render(<Terminal lineData={ [] } onInput={ (input: string) => '' }/>)
     expect(container.ownerDocument.activeElement?.nodeName).toEqual('INPUT');
-    expect(container.ownerDocument.activeElement?.className).toEqual('terminal-hidden');
+    expect(container.ownerDocument.activeElement?.className).toEqual('terminal-hidden-input');
   });
 
   test('Should not focus if onInput is undefined', () => {

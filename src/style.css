@@ -107,13 +107,9 @@
   }
 }
 
-.hidden-input-wrapper {
-  overflow: hidden;
-  position: relative;
-}
-
-.hidden-input {
+.terminal-hidden-input {
     position: fixed;
+    left: -1000px;
 }
 
 /* .react-terminal-progress {

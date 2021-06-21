@@ -57,7 +57,7 @@ const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValu
     // keep reference to listeners so we can perform cleanup
     const elListeners: { terminalEl: Element; listener: EventListenerOrEventListenerObject }[] = [];
     for (const terminalEl of document.getElementsByClassName('react-terminal-wrapper')) {
-      const listener = () => (terminalEl?.querySelector('.terminal-hidden') as HTMLElement)?.focus();
+      const listener = () => (terminalEl?.querySelector('.terminal-hidden-input') as HTMLElement)?.focus();
       terminalEl?.addEventListener('click', listener);
       elListeners.push({ terminalEl, listener });
     }
@@ -102,11 +102,7 @@ const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValu
       <div className="react-terminal">
         { renderedLineData }
       </div>
-      <div className="hidden-input-wrapper">
-        <div className="hidden-input">
-          <input className="terminal-hidden" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleEnter } />
-        </div>
-      </div>
+      <input className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleEnter } />
     </div>
   );
 }
