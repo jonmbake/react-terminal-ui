@@ -33,15 +33,15 @@
   "homepage": "https://github.com/jonmbake/react-terminal-ui#readme",
   "dependencies": {},
   "devDependencies": {
-    "@testing-library/react": "^10.4.7",
-    "@types/jest": "^26.0.19",
-    "@types/react": "^16.9.43",
-    "@types/react-dom": "^16.9.8",
+    "@testing-library/react": "^10.4.9",
+    "@types/jest": "^26.0.24",
+    "@types/react": "^16.14.13",
+    "@types/react-dom": "^16.9.14",
     "identity-obj-proxy": "^3.0.0",
     "install-peers-cli": "^2.2.0",
     "jest": "^26.6.3",
-    "ts-jest": "^26.4.4",
-    "typescript": "^3.9.6"
+    "ts-jest": "^26.5.6",
+    "typescript": "^3.9.10"
   },
   "peerDependencies": {
     "react": "^16.13.1",
