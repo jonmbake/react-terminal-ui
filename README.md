@@ -3,6 +3,8 @@
 [![Types TypeScript](types-type-script.svg)](https://github.com/jonmbake/react-terminal-ui/blob/gh-pages/index.d.ts)
 [![CodeQL Scan](codeql-scan.svg)](https://github.com/jonmbake/react-terminal-ui/security/code-scanning?query=tool%3ACodeQL)
 
+:bangbang: Help improve _react-terminal-ui_. [Take the survey](https://github.com/jonmbake/react-terminal-ui/issues/19) :bangbang:
+
 # React Terminal UI
 
 A [React](https://github.com/facebook/react) terminal component with support for light/dark modes. Styling courtesy of [termynal.js](https://github.com/ines/termynal).
