@@ -23,11 +23,11 @@ const TerminalController = (props = {}) => {
   function onInput (input: string) {
       let ld = [...lineData];
       ld.push({type: LineType.Input, value: input});
-    if (input.toLocaleLowerCase() === 'view-source') {
+    if (input.toLocaleLowerCase().trim() === 'view-source') {
       window.open('https://github.com/jonmbake/react-terminal-ui', '_blank');
-    } else if (input.toLocaleLowerCase() === 'view-react-docs') {
+    } else if (input.toLocaleLowerCase().trim() === 'view-react-docs') {
       window.open('https://reactjs.org/docs/getting-started.html', '_blank');
-    } else if (input.toLocaleLowerCase() === 'clear') {
+    } else if (input.toLocaleLowerCase().trim() === 'clear') {
       ld = [];
     } else if (input) {
       ld.push({type: LineType.Output, value: 'Unrecognized command'});
