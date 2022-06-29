@@ -14,7 +14,7 @@ export interface Props {
     colorMode?: ColorMode;
     lineData: Array<{
         type: LineType;
-        value: string;
+        value: string | JSX.Element;
     }>;
     onInput?: ((input: string) => void) | null | undefined;
     startingInputValue?: string;
