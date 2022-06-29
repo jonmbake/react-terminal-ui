@@ -15,7 +15,7 @@ export interface Props {
   name?: string
   prompt?: string
   colorMode?: ColorMode
-  lineData: Array<{type: LineType, value: string}>
+  lineData: Array<{type: LineType, value: string | JSX.Element}>
   onInput?: ((input: string) => void) | null | undefined,
   startingInputValue?: string
 }

@@ -11,7 +11,7 @@ const TerminalController = (props = {}) => {
     {type: LineType.Output, value: ''},
     {type: LineType.Output, value: 'The following example commands are provided:'},
     {type: LineType.Output, value: '\'view-source\' will navigate to the React Terminal UI github source.'},
-    {type: LineType.Output, value: '\'view-react-docs\' will naviagate to the react docs.'},
+    {type: LineType.Output, value: '\'view-react-docs\' will navigate to the react docs.'},
     {type: LineType.Output, value: '\'clear\' will clear the terminal.'},
   ]);
 
