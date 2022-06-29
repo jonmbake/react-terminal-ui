@@ -16,17 +16,17 @@ describe('Terminal component', () => {
 
   test('Should render prompt', () => {
     const { container } = render(<Terminal lineData={ [] } onInput={ (input: string) => '' }/>);
-    expect(container.querySelectorAll('span')).toHaveLength(1);
-    expect(container.querySelector('span.react-terminal-line.react-terminal-active-input[data-terminal-prompt="$"]')).not.toBeNull();
+    expect(container.querySelectorAll('.react-terminal-line')).toHaveLength(1);
+    expect(container.querySelector('.react-terminal-line.react-terminal-active-input[data-terminal-prompt="$"]')).not.toBeNull();
     screen.getByPlaceholderText('Terminal Hidden Input');
   });
 
   test('Should not render prompt if onInput prop is null or not defined', () => {
     const { container } = render(<Terminal lineData={ [{type: LineType.Output, value: 'Some terminal output'}] } onInput={ null }/>);
     // Still renders output line...
-    expect(container.querySelectorAll('span.react-terminal-line')).toHaveLength(1);
+    expect(container.querySelectorAll('.react-terminal-line')).toHaveLength(1);
     // ... but not the prompt
-    expect(container.querySelector('span.react-terminal-active-input')).toBeNull();
+    expect(container.querySelector('.react-terminal-active-input')).toBeNull();
   });
 
   test('Should render line data', () => {
@@ -35,7 +35,7 @@ describe('Terminal component', () => {
       {type: LineType.Output, value: 'Some terminal output'}
    ];
     const { container } = render(<Terminal lineData={ lineData } onInput={ (input: string) => '' }/>);
-    expect(container.querySelectorAll('span')).toHaveLength(3);
+    expect(container.querySelectorAll('.react-terminal-line')).toHaveLength(3);
     let renderedLine = screen.getByText('Some terminal output');
     expect(renderedLine.className).toEqual('react-terminal-line');
     renderedLine = screen.getByText('Some terminal input');

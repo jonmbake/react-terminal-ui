@@ -60,8 +60,6 @@
 }
 
 .react-terminal-line {
-  display: block;
-  line-height: 1.5;
   white-space: pre;
 }
 

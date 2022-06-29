@@ -23,7 +23,7 @@ export interface Props {
 const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValue = ""}: Props) => {
   const [currentLineInput, setCurrentLineInput] = useState('');
 
-  const lastLineRef = useRef<null | HTMLElement>(null)
+  const lastLineRef = useRef<HTMLDivElement>(null)
 
   const updateCurrentLineInput = (event: ChangeEvent<HTMLInputElement>) => {
     setCurrentLineInput(event.target.value);
@@ -77,11 +77,11 @@ const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValu
     // redendered line if input prompt is not shown, i.e. `onInput` is not declared; see 'render prompt' below
     if (lineData.length === i + 1 && onInput == null) {
       return (
-        <span className={ classes.join(' ') } key={ i } ref={ lastLineRef }>{ ld.value }</span>
+        <div className={ classes.join(' ') } key={ i } ref={ lastLineRef }>{ ld.value }</div>
       );
     } else {
       return (
-        <span className={ classes.join(' ') } key={ i }>{ ld.value }</span>
+        <div className={ classes.join(' ') } key={ i }>{ ld.value }</div>
       );
     }
   });
@@ -89,7 +89,7 @@ const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValu
   // render prompt
   if (onInput != null) {
     renderedLineData.push(
-      <span className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key={ lineData.length } ref={ lastLineRef }>{ currentLineInput }</span>,
+      <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key={ lineData.length } ref={ lastLineRef }>{ currentLineInput }</div>,
     );
   }
 
