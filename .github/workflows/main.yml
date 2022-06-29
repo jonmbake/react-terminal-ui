@@ -24,7 +24,7 @@ jobs:
       run: npm test
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
       with:
         config-file: ./.github/configs/codeql-config.yml
 
@@ -36,7 +36,7 @@ jobs:
       run:  cp ./build/index.d.ts ./docs/
 
     - name: Perform CodeQL analysis
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v2
 
     - name: Publish github pages docs
       uses: peaceiris/actions-gh-pages@v3
