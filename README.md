@@ -33,7 +33,6 @@ import Terminal, { ColorMode, LineType } from 'react-terminal-ui';
 const TerminalController = (props = {}) => {
   const [terminalLineData, setTerminalLineData] = useState([
     {type: LineType.Output, value: 'Welcome to the React Terminal UI Demo!'},
-    {type: LineType.Output, value: <span>Check out the <a href="https://github.com/jonmbake/react-terminal-ui">Github Repo</a><span>},
     {type: LineType.Input, value: 'Some previous input received'},
   ]);
   // Terminal has 100% width by default so it should usually be wrapped in a container div

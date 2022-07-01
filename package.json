@@ -44,8 +44,8 @@
     "typescript": "^3.9.10"
   },
   "peerDependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react": ">16.13.0",
+    "react-dom": ">16.13.0"
   },
   "jest": {
     "moduleNameMapper": {
