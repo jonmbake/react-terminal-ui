@@ -2,6 +2,7 @@ import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import external from "rollup-plugin-peer-deps-external";
 import resolve from "@rollup/plugin-node-resolve";
+import { terser } from "rollup-plugin-terser";
 
 export default {
   input: "demo/index.tsx",
@@ -25,7 +26,8 @@ export default {
       rollupCommonJSResolveHack: true,
       exclude: "**/__tests__/**",
       clean: true
-    })
+    }),
+    terser()
   ]
 };
 
