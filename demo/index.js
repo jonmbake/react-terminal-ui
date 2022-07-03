@@ -6,7 +6,7 @@
     var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
     var ReactDOM__default = /*#__PURE__*/_interopDefaultLegacy(ReactDOM);
 
-    /*! *****************************************************************************
+    /******************************************************************************
     Copyright (c) Microsoft Corporation.
 
     Permission to use, copy, modify, and/or distribute this software for any
@@ -50,6 +50,7 @@
         return ar;
     }
 
+    /** @deprecated */
     function __spread() {
         for (var ar = [], i = 0; i < arguments.length; i++)
             ar = ar.concat(__read(arguments[i]));
