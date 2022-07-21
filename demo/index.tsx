@@ -1,18 +1,18 @@
 import React, { useState, MouseEvent } from 'react'
 import ReactDOM from 'react-dom';
-import Terminal, { ColorMode, LineType } from '../src/index';
+import Terminal, { ColorMode, TerminalInput, TerminalOutput } from '../src/index';
 
 import './style.css';
 
 const TerminalController = (props = {}) => {
   const [colorMode, setColorMode] = useState(ColorMode.Dark);
   const [lineData, setLineData] = useState([
-    {type: LineType.Output, value: 'Welcome to the React Terminal UI Demo!'},
-    {type: LineType.Output, value: ''},
-    {type: LineType.Output, value: 'The following example commands are provided:'},
-    {type: LineType.Output, value: '\'view-source\' will navigate to the React Terminal UI github source.'},
-    {type: LineType.Output, value: '\'view-react-docs\' will navigate to the react docs.'},
-    {type: LineType.Output, value: '\'clear\' will clear the terminal.'},
+    <TerminalOutput>Welcome to the React Terminal UI Demo!&#128075;</TerminalOutput>,
+    <TerminalOutput></TerminalOutput>,
+    <TerminalOutput>The following example commands are provided:</TerminalOutput>,
+    <TerminalOutput>'view-source' will navigate to the React Terminal UI github source.</TerminalOutput>,
+    <TerminalOutput>'view-react-docs' will navigate to the react docs.</TerminalOutput>,
+    <TerminalOutput>'clear' will clear the terminal.</TerminalOutput>,
   ]);
 
   function toggleColorMode (e: MouseEvent) {
@@ -22,7 +22,7 @@ const TerminalController = (props = {}) => {
 
   function onInput (input: string) {
       let ld = [...lineData];
-      ld.push({type: LineType.Input, value: input});
+      ld.push(<TerminalInput>{input}</TerminalInput>);
     if (input.toLocaleLowerCase().trim() === 'view-source') {
       window.open('https://github.com/jonmbake/react-terminal-ui', '_blank');
     } else if (input.toLocaleLowerCase().trim() === 'view-react-docs') {
@@ -30,7 +30,7 @@ const TerminalController = (props = {}) => {
     } else if (input.toLocaleLowerCase().trim() === 'clear') {
       ld = [];
     } else if (input) {
-      ld.push({type: LineType.Output, value: 'Unrecognized command'});
+      ld.push(<TerminalOutput>Unrecognized command</TerminalOutput>);
     }
     setLineData(ld);
   }
@@ -46,7 +46,9 @@ const TerminalController = (props = {}) => {
       <div className="d-flex flex-row-reverse p-2">
         <button className={ btnClasses.join(' ') } onClick={ toggleColorMode } >Enable { colorMode === ColorMode.Light ? 'Dark' : 'Light' } Mode</button>
       </div>
-      <Terminal name='React Terminal UI' colorMode={ colorMode }  lineData={ lineData } onInput={ onInput }/>
+      <Terminal name='React Terminal UI' colorMode={ colorMode }  onInput={ onInput }>
+        {lineData}
+      </Terminal>
     </div>
   )
 };

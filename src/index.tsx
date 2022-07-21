@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useRef, KeyboardEvent, ChangeEvent } from 'react';
+import React, { useState, useEffect, useRef, KeyboardEvent, ChangeEvent, ReactNode, ReactNodeArray } from 'react';
+import TerminalInput from './linetypes/TerminalInput';
+import TerminalOutput from './linetypes/TerminalOutput';
 import './style.css';
-
-export enum LineType {
-  Input,
-  Output
-}
 
 export enum ColorMode {
   Light,
@@ -15,15 +12,15 @@ export interface Props {
   name?: string
   prompt?: string
   colorMode?: ColorMode
-  lineData: Array<{type: LineType, value: string | JSX.Element}>
+  children?: ReactNode;
   onInput?: ((input: string) => void) | null | undefined,
   startingInputValue?: string
 }
 
-const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValue = ""}: Props) => {
+const Terminal = ({name, prompt, colorMode, onInput, children, startingInputValue = ""}: Props) => {
   const [currentLineInput, setCurrentLineInput] = useState('');
 
-  const lastLineRef = useRef<HTMLDivElement>(null)
+  const scrollIntoViewRef = useRef<HTMLDivElement>(null)
 
   const updateCurrentLineInput = (event: ChangeEvent<HTMLInputElement>) => {
     setCurrentLineInput(event.target.value);
@@ -44,10 +41,10 @@ const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValu
   const performScrolldown = useRef(false);
   useEffect(() => {
     if (performScrolldown.current) { // skip scrolldown when the component first loads
-      setTimeout(() => lastLineRef?.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 500);
+      setTimeout(() => scrollIntoViewRef?.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 500);
     }
     performScrolldown.current = true;
-  }, [lineData.length]);
+  }, [children]);
 
   // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
   useEffect(() => {
@@ -68,31 +65,6 @@ const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValu
     }
   }, [onInput]);
 
-  const renderedLineData = lineData.map((ld, i) => {
-    const classes = ['react-terminal-line'];
-    if (ld.type === LineType.Input) {
-      classes.push('react-terminal-input');
-    }
-    // `lastLineRef` is used to ensure the terminal scrolls into view to the last line; make sure to add the ref to the last
-    // redendered line if input prompt is not shown, i.e. `onInput` is not declared; see 'render prompt' below
-    if (lineData.length === i + 1 && onInput == null) {
-      return (
-        <div className={ classes.join(' ') } key={ i } ref={ lastLineRef }>{ ld.value }</div>
-      );
-    } else {
-      return (
-        <div className={ classes.join(' ') } key={ i }>{ ld.value }</div>
-      );
-    }
-  });
-
-  // render prompt
-  if (onInput != null) {
-    renderedLineData.push(
-      <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key={ lineData.length } ref={ lastLineRef }>{ currentLineInput }</div>,
-    );
-  }
-
   const classes = ['react-terminal-wrapper'];
   if (colorMode === ColorMode.Light) {
     classes.push('react-terminal-light');
@@ -100,11 +72,14 @@ const Terminal = ({name, prompt, colorMode, lineData, onInput, startingInputValu
   return (
     <div className={ classes.join(' ') } data-terminal-name={ name }>
       <div className="react-terminal">
-        { renderedLineData }
+        { children }
+        { onInput && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }</div> }
+        <div ref={ scrollIntoViewRef }></div>
       </div>
-      <input className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleEnter } />
+      <input className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleEnter }/>
     </div>
   );
 }
 
+export { TerminalInput, TerminalOutput };
 export default Terminal;
