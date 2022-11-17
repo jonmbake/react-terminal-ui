@@ -41,7 +41,7 @@ const Terminal = ({name, prompt, colorMode, onInput, children, startingInputValu
   const performScrolldown = useRef(false);
   useEffect(() => {
     if (performScrolldown.current) { // skip scrolldown when the component first loads
-      setTimeout(() => scrollIntoViewRef?.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 500);
+      setTimeout(() => scrollIntoViewRef?.current?.scrollIntoView({ behavior: "auto", block: "nearest" }), 500);
     }
     performScrolldown.current = true;
   }, [children]);
