@@ -24,6 +24,7 @@ jobs:
       run: npm test
 
     - name: Initialize CodeQL
+      if: github.ref_name == 'master'
       uses: github/codeql-action/init@v2
       with:
         config-file: ./.github/configs/codeql-config.yml
@@ -36,11 +37,12 @@ jobs:
       run:  cp ./build/index.d.ts ./docs/
 
     - name: Perform CodeQL analysis
+      if: github.ref_name == 'master'
       uses: github/codeql-action/analyze@v2
 
     - name: Publish github pages docs
       uses: peaceiris/actions-gh-pages@v3
-      if: github.event_name != 'pull_request'
+      if: github.ref_name == 'master'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs
