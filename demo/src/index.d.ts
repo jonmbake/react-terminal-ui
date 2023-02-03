@@ -9,11 +9,12 @@ export declare enum ColorMode {
 export interface Props {
     name?: string;
     prompt?: string;
+    height?: string;
     colorMode?: ColorMode;
     children?: ReactNode;
     onInput?: ((input: string) => void) | null | undefined;
     startingInputValue?: string;
 }
-declare const Terminal: ({ name, prompt, colorMode, onInput, children, startingInputValue }: Props) => JSX.Element;
+declare const Terminal: ({ name, prompt, height, colorMode, onInput, children, startingInputValue }: Props) => JSX.Element;
 export { TerminalInput, TerminalOutput };
 export default Terminal;
