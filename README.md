@@ -55,6 +55,7 @@ const TerminalController = (props = {}) => {
 | onInput             | A callback function that is invoked when a user presses enter on the prompt. The function is passed the current prompt input. |
 | startingInputValue  | Starting input value. If this prop changes, any user entered input will be overriden by this value. Defaults to the empty string (""). |
 | prompt              | The prompt character. Defaults to '$' |
+| height              | Height of the terminal. Defaults to 600px. |
 
 ### Development
 
