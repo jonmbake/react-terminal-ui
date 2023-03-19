@@ -21,9 +21,6 @@ npm install --save react-terminal-ui
 
 ## Usage
 
-**Important Note:** In version 1, the component API changed from passing `lineData` as a prop to line data being defined
-as children. Check out [v.0.2.1 Readme](https://github.com/jonmbake/react-terminal-ui/tree/v0.2.1#usage) for the old usage.
-
 _React Terminal UI_ is a "dumb component"-- whatever props you pass in, it will render. You usually want to have
 a smart, controller component that controls terminal state. For example:
 

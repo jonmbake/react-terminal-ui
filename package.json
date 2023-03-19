@@ -1,6 +1,6 @@
 {
   "name": "react-terminal-ui",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A terminal react component with support for light and dark modes.",
   "main": "build/index.js",
   "module": "build/index.es.js",
