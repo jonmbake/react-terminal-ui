@@ -27,7 +27,10 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
     setCurrentLineInput(event.target.value);
   }
 
-  const handleEnter = (event: KeyboardEvent<HTMLInputElement>) => {
+  const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+    }
     if (onInput != null && event.key === 'Enter') {
       onInput(currentLineInput);
       setCurrentLineInput('');
@@ -77,7 +80,7 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
         { onInput && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }</div> }
         <div ref={ scrollIntoViewRef }></div>
       </div>
-      <input className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleEnter }/>
+      <input className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleInputKeyDown }/>
     </div>
   );
 }
