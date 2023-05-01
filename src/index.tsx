@@ -20,6 +20,7 @@ export interface Props {
 
 const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children, startingInputValue = ""}: Props) => {
   const [currentLineInput, setCurrentLineInput] = useState('');
+  const [cursorIndex, setCursorIndex] = useState(0);
 
   const scrollIntoViewRef = useRef<HTMLDivElement>(null)
 
@@ -28,18 +29,63 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
   }
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+  
     }
+
     if (onInput != null && event.key === 'Enter') {
       onInput(currentLineInput);
       setCurrentLineInput('');
     }
   }
 
+  const updateCursorPosition = () => {
+    const inputEl = document.getElementById('hidden') as HTMLInputElement;
+    if(!inputEl) return;
+
+    const cursorIndex = inputEl.selectionEnd || 0;
+    setCursorIndex(cursorIndex)
+  }
+
+  const calculateInputWidth = (cursor: HTMLElement, inputElement: HTMLInputElement, inputSuffix: string) => {
+    const span = document.createElement('span');
+    span.style.visibility = 'hidden';
+    span.style.position = 'absolute';
+    span.style.fontSize = window.getComputedStyle(inputElement).fontSize;
+    span.style.fontFamily = window.getComputedStyle(inputElement).fontFamily;
+    span.innerText = inputSuffix;
+    document.body.appendChild(span);
+    const width = span.getBoundingClientRect().width;
+    document.body.removeChild(span);
+    return -width;
+  };
+
+  useEffect(() => {
+    const cursor = document.getElementById('cursor');
+    if (!cursor) return;
+  
+    if (cursorIndex === currentLineInput.length) {
+      cursor.style.left = '0';
+    } else {
+      const inputElement = document.getElementById('hidden') as HTMLInputElement;
+      const inputPrefix = currentLineInput.slice(cursorIndex);
+      const inputWidth = calculateInputWidth(cursor, inputElement, inputPrefix);
+      cursor.style.left = `${inputWidth}px`;
+    }
+
+  }, [cursorIndex]);
+
   useEffect(() => {
     setCurrentLineInput(startingInputValue.trim());
   }, [startingInputValue]);
+
+  useEffect(() => {
+    // Update cursor position 60 times a second.
+    const interval = setInterval(() => {
+      updateCursorPosition();
+    }, 1000 / 60);
+    return () => clearInterval(interval);
+  }, []);
 
   // An effect that handles scrolling into view the last line of terminal input or output
   const performScrolldown = useRef(false);
@@ -77,10 +123,10 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
     <div className={ classes.join(' ') } data-terminal-name={ name }>
       <div className="react-terminal" style={ { height } }>
         { children }
-        { onInput && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }</div> }
+        { onInput && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }<span id="cursor" style={{ position: 'relative' }}></span></div> }
         <div ref={ scrollIntoViewRef }></div>
       </div>
-      <input className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleInputKeyDown }/>
+      <input id="hidden" className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleInputKeyDown }/>
     </div>
   );
 }

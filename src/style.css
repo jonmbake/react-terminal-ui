@@ -83,13 +83,21 @@
   content: attr(data-terminal-prompt);
 }
 
-.react-terminal-wrapper:focus-within .react-terminal-active-input:after {
+.react-terminal-wrapper:focus-within .react-terminal-active-input #cursor:after {
+  content: '▋';
+  position: relative;
+  font-family: monospace;
+  -webkit-animation: blink 1s infinite;
+          animation: blink 1s infinite;
+}
+
+/* .react-terminal-wrapper:focus-within .react-terminal-active-input:after {
   content: '▋';
   font-family: monospace;
   margin-left: 0.2em;
   -webkit-animation: blink 1s infinite;
           animation: blink 1s infinite;
-}
+} */
 
 /* Cursor animation */
 
