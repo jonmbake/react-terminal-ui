@@ -29,10 +29,6 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
   }
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-  
-    }
-
     if (onInput != null && event.key === 'Enter') {
       onInput(currentLineInput);
       setCurrentLineInput('');
@@ -47,7 +43,10 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
     setCursorIndex(cursorIndex)
   }
 
+  // Calculates the total width in pixels of the input field's suffix text.
+  // starting from the cursor position until the end of the input
   const calculateInputWidth = (cursor: HTMLElement, inputElement: HTMLInputElement, inputSuffix: string) => {
+    // Create a temporary span element to measure the width of the input suffix text.
     const span = document.createElement('span');
     span.style.visibility = 'hidden';
     span.style.position = 'absolute';
@@ -57,6 +56,7 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
     document.body.appendChild(span);
     const width = span.getBoundingClientRect().width;
     document.body.removeChild(span);
+    // Return the negative width, since the cursor position is to the left of the input suffix
     return -width;
   };
 
@@ -79,8 +79,8 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
     setCurrentLineInput(startingInputValue.trim());
   }, [startingInputValue]);
 
+  // Update cursor position 60 times a second.
   useEffect(() => {
-    // Update cursor position 60 times a second.
     const interval = setInterval(() => {
       updateCursorPosition();
     }, 1000 / 60);
