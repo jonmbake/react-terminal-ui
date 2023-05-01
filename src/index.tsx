@@ -65,7 +65,7 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
 
       if(event.key === 'ArrowLeft') {
         if(cursorIndex > currentLineInput.length - 1) cursorIndex --;
-        charsToRightOfCursor = currentLineInput.slice(currentLineInput.length -1 - cursorIndex); // 4 - 5
+        charsToRightOfCursor = currentLineInput.slice(currentLineInput.length -1 - cursorIndex);
       }
       else if (event.key === 'ArrowRight' || event.key === 'Delete') {
         charsToRightOfCursor = currentLineInput.slice(currentLineInput.length - cursorIndex + 1);
