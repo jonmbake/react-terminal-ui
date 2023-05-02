@@ -56,6 +56,7 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
     };
     if (event.key === 'Enter') {
       onInput(currentLineInput);
+      setCursorPos(0);
       setCurrentLineInput('');
     } else if (["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(event.key)) { 
       const inputElement = document.getElementById('hidden') as HTMLInputElement;
@@ -119,7 +120,7 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
     <div className={ classes.join(' ') } data-terminal-name={ name }>
       <div className="react-terminal" style={ { height } }>
         { children }
-        { onInput && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }<span id="cursor" style={{ position: 'relative', left: `${cursorPos}px` }}></span></div> }
+        { onInput && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }<span id="cursor" style={{ left: `${cursorPos+1}px` }}></span></div> }
         <div ref={ scrollIntoViewRef }></div>
       </div>
       <input id="hidden" className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleInputKeyDown }/>
