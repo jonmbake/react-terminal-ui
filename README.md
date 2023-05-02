@@ -5,7 +5,7 @@
 
 # React Terminal UI
 
-A [React](https://github.com/facebook/react) terminal component with support for light/dark modes. Styling courtesy of [termynal.js](https://github.com/ines/termynal).
+A [React](https://github.com/facebook/react) terminal component with support for light/dark modes. Styling is courtesy of [termynal.js](https://github.com/ines/termynal).
 
 Check out the **[Demo](https://jonmbake.github.io/react-terminal-ui/demo/)** :heart_eyes:
 
@@ -47,11 +47,11 @@ const TerminalController = (props = {}) => {
 
 | Name                | Description |
 | ------------------- | ------------- |
-| name                | Name of the terminal. Displays at the top of the rendered component. In the demo, the name is set to _React Terminal UI_ |
-| colorMode           | Terminal color mode-- either Light or Dark. Defaults to Dark. |
+| name                | Name of the terminal. Displays at the top of the rendered component. In the demo, the name is set to _React Terminal UI_. |
+| colorMode           | Terminal color mode - either Light or Dark. Defaults to Dark. |
 | onInput             | A callback function that is invoked when a user presses enter on the prompt. The function is passed the current prompt input. |
-| startingInputValue  | Starting input value. If this prop changes, any user entered input will be overriden by this value. Defaults to the empty string (""). |
-| prompt              | The prompt character. Defaults to '$' |
+| startingInputValue  | Starting input value. If this prop changes, any user-entered input will be overridden by this value. Defaults to the empty string (""). |
+| prompt              | The prompt character. Defaults to '$'. |
 | height              | Height of the terminal. Defaults to 600px. |
 
 ### Development
