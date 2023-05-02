@@ -94,14 +94,6 @@
           animation: blink 1s infinite;
 }
 
-.react-terminal-wrapper:focus-within .react-terminal-active-input #cursor:after {
-  /* content: '▋';
-  position: relative;
-  font-family: monospace;
-  -webkit-animation: blink 1s infinite;
-          animation: blink 1s infinite; */
-}
-
 /* Cursor animation */
 
 @-webkit-keyframes blink {
