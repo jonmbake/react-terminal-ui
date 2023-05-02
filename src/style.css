@@ -29,19 +29,36 @@
   color: #1a1e24;
 }
 
-.react-terminal-wrapper:before {
-  content: '';
+.react-terminal-window-buttons {
   position: absolute;
   top: 15px;
   left: 15px;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.react-terminal-window-buttons button {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  /* A little hack to display the window buttons in one pseudo element. */
+  border: 0;
+}
+
+.react-terminal-window-buttons button.clickable {
+  cursor: pointer;
+}
+
+.react-terminal-window-buttons button.red-btn {
   background: #d9515d;
-  -webkit-box-shadow: 25px 0 0 #f4c025, 50px 0 0 #3ec930;
-          box-shadow: 25px 0 0 #f4c025, 50px 0 0 #3ec930;
+}
+
+.react-terminal-window-buttons button.yellow-btn {
+  background: #f4c025;
+}
+
+.react-terminal-window-buttons button.green-btn {
+  background: #3ec930;
 }
 
 .react-terminal-wrapper:after {
@@ -52,6 +69,7 @@
   left: 0;
   width: 100%;
   text-align: center;
+  pointer-events: none;
 }
 
 .react-terminal-wrapper.react-terminal-light:after {
