@@ -83,10 +83,13 @@
   content: attr(data-terminal-prompt);
 }
 
-.react-terminal-wrapper:focus-within .react-terminal-active-input:after {
-  content: '▋';
-  font-family: monospace;
-  margin-left: 0.2em;
+.react-terminal-wrapper:focus-within .react-terminal-active-input #cursor {
+  position: relative;
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  top: 0.225em;
+  background: #fff;
   -webkit-animation: blink 1s infinite;
           animation: blink 1s infinite;
 }
