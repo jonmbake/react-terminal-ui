@@ -35,6 +35,18 @@ const TerminalController = (props = {}) => {
     setLineData(ld);
   }
 
+  const redBtnClick = () => {
+    console.log("Clicked the red button.");
+  }
+
+  const yellowBtnClick = () => {
+    console.log("Clicked the yellow button.");
+  }
+
+  const greenBtnClick = () => {
+    console.log("Clicked the green button.");
+  }
+
   const btnClasses = ['btn'];
   if (colorMode === ColorMode.Light) {
     btnClasses.push('btn-dark');
@@ -46,7 +58,14 @@ const TerminalController = (props = {}) => {
       <div className="d-flex flex-row-reverse p-2">
         <button className={ btnClasses.join(' ') } onClick={ toggleColorMode } >Enable { colorMode === ColorMode.Light ? 'Dark' : 'Light' } Mode</button>
       </div>
-      <Terminal name='React Terminal UI' colorMode={ colorMode }  onInput={ onInput }>
+      <Terminal 
+        name='React Terminal UI' 
+        colorMode={ colorMode }  
+        onInput={ onInput } 
+        redBtnCallback={ redBtnClick } 
+        yellowBtnCallback={ yellowBtnClick } 
+        greenBtnCallback={ greenBtnClick }
+      >
         {lineData}
       </Terminal>
     </div>
