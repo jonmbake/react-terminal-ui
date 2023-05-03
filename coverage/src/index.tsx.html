@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.36% </span>
+                <span class="strong">68.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>64/95</span>
+                <span class='fraction'>67/98</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.89% </span>
+                <span class="strong">45.45% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>22/49</span>
+                <span class='fraction'>25/55</span>
             </div>
         
             
@@ -195,7 +195,15 @@
 <a name='L130'></a><a href='#L130'>130</a>
 <a name='L131'></a><a href='#L131'>131</a>
 <a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -203,6 +211,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -325,6 +336,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { useState, useEffect, useRef, KeyboardEvent, ChangeEvent, ReactNode, ReactNodeArray } from 'react';
@@ -338,16 +354,19 @@ export enum ColorMode {
 }
 &nbsp;
 export interface Props {
-  name?: string
-  prompt?: string
-  height?: string
-  colorMode?: ColorMode
+  name?: string;
+  prompt?: string;
+  height?: string;
+  colorMode?: ColorMode;
   children?: ReactNode;
-  onInput?: ((input: string) =&gt; void) | null | undefined,
-  startingInputValue?: string
+  onInput?: ((input: string) =&gt; void) | null | undefined;
+  startingInputValue?: string;
+  redBtnCallback?: () =&gt; void;
+  yellowBtnCallback?: () =&gt; void;
+  greenBtnCallback?: () =&gt; void;
 }
 &nbsp;
-const Terminal = ({name, prompt, height = "600px"<span class="branch-1 cbranch-no" title="branch not covered" >, c</span>olorMode, onInput, children, startingInputValue = ""}: Props) =&gt; {
+const Terminal = ({name, prompt, height = "600px"<span class="branch-1 cbranch-no" title="branch not covered" >, c</span>olorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback}: Props) =&gt; {
   const [currentLineInput, setCurrentLineInput] = useState('');
   const [cursorPos, setCursorPos] = useState(0);
 &nbsp;
@@ -447,6 +466,11 @@ const Terminal = ({name, prompt, height = "600px"<span class="branch-1 cbranch-n
   }
   return (
     &lt;div className={ classes.join(' ') } data-terminal-name={ name }&gt;
+      &lt;div className="react-terminal-window-buttons"&gt;
+        &lt;button className={`${yellowBtnCallback ? <span class="branch-0 cbranch-no" title="branch not covered" >"clickable":</span> ""} red-btn`} disabled={!redBtnCallback} onClick={ redBtnCallback } /&gt;
+        &lt;button className={`${yellowBtnCallback ? <span class="branch-0 cbranch-no" title="branch not covered" >"clickable" </span>: ""} yellow-btn`} disabled={!yellowBtnCallback} onClick={ yellowBtnCallback } /&gt;
+        &lt;button className={`${greenBtnCallback ? <span class="branch-0 cbranch-no" title="branch not covered" >"clickable" </span>: ""} green-btn`} disabled={!greenBtnCallback} onClick={ greenBtnCallback } /&gt;
+      &lt;/div&gt;
       &lt;div className="react-terminal" style={ { height } }&gt;
         { children }
         { onInput &amp;&amp; &lt;div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" &gt;{ currentLineInput }&lt;span id="cursor" style={{ left: `${cursorPos+1}px` }}&gt;&lt;/span&gt;&lt;/div&gt; }
@@ -466,7 +490,7 @@ export default Terminal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-05-02T17:53:07.242Z
+                at 2023-05-03T11:52:24.188Z
             </div>
         <script src="../prettify.js"></script>
         <script>

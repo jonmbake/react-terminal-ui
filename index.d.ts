@@ -14,7 +14,10 @@ export interface Props {
     children?: ReactNode;
     onInput?: ((input: string) => void) | null | undefined;
     startingInputValue?: string;
+    redBtnCallback?: () => void;
+    yellowBtnCallback?: () => void;
+    greenBtnCallback?: () => void;
 }
-declare const Terminal: ({ name, prompt, height, colorMode, onInput, children, startingInputValue }: Props) => JSX.Element;
+declare const Terminal: ({ name, prompt, height, colorMode, onInput, children, startingInputValue, redBtnCallback, yellowBtnCallback, greenBtnCallback }: Props) => JSX.Element;
 export { TerminalInput, TerminalOutput };
 export default Terminal;
