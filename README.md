@@ -53,6 +53,9 @@ const TerminalController = (props = {}) => {
 | startingInputValue  | Starting input value. If this prop changes, any user-entered input will be overridden by this value. Defaults to the empty string (""). |
 | prompt              | The prompt character. Defaults to '$'. |
 | height              | Height of the terminal. Defaults to 600px. |
+| redBtnCallback      | Optional callback function for the red button. If provided, the function will be invoked when the red button is clicked. |
+| yellowBtnCallback   | Optional callback function for the yellow button. If provided, the function will be invoked when the yellow button is clicked. |
+| greenBtnCallback    | Optional callback function for the green button. If provided, the function will be invoked when the green button is clicked. |
 
 ### Development
 
