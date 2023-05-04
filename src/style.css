@@ -83,7 +83,7 @@
   content: attr(data-terminal-prompt);
 }
 
-.react-terminal-wrapper:focus-within .react-terminal-active-input #cursor {
+.react-terminal-wrapper:focus-within .react-terminal-active-input .cursor {
   position: relative;
   display: inline-block;
   width: 0.55em;
