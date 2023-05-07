@@ -40,7 +40,7 @@ const TerminalController = (props = {}) => {
       </Terminal>
     </div>
   )
-});
+};
 ```
 
 ## Component Props
