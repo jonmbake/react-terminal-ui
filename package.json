@@ -7,7 +7,7 @@
   "jsnext:main": "build/index.es.js",
   "types": "build/index.d.ts",
   "files": [
-    "build/index.*"
+    "build/**"
   ],
   "scripts": {
     "build": "./bin/build.sh",
