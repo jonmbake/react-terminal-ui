@@ -1,9 +1,18 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
-const TerminalInput = ({children} : {children?: React.ReactChild}) => {
-  return (
-    <div className="react-terminal-line react-terminal-input">{ children }</div>
-  );
-} 
+type TerminalInputProps = PropsWithChildren<{
+    prompt?: string;
+}>;
+
+const TerminalInput = ({ children, prompt }: TerminalInputProps) => {
+    return (
+        <div
+            className="react-terminal-line react-terminal-input"
+            data-terminal-prompt={prompt || "$"}
+        >
+            {children}
+        </div>
+    );
+};
 
 export default TerminalInput;
