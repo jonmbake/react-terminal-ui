@@ -128,7 +128,7 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
       </div>
       <div className="react-terminal" style={ { height } }>
         { children }
-        { onInput && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }<span className="cursor" style={{ left: `${cursorPos+1}px` }}></span></div> }
+        { typeof onInput === 'function' && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }<span className="cursor" style={{ left: `${cursorPos+1}px` }}></span></div> }
         <div ref={ scrollIntoViewRef }></div>
       </div>
       <input className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleInputKeyDown }/>
