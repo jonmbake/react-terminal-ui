@@ -61,6 +61,7 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
       onInput(currentLineInput);
       setCursorPos(0);
       setCurrentLineInput('');
+      scrollIntoViewRef?.current?.scrollIntoView({ behavior: "auto", block: "center" });
     } else if (["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(event.key)) { 
       const inputElement = event.currentTarget;
       let charsToRightOfCursor = "";
@@ -86,15 +87,6 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
   useEffect(() => {
     setCurrentLineInput(startingInputValue.trim());
   }, [startingInputValue]);
-
-  // An effect that handles scrolling into view the last line of terminal input or output
-  const performScrolldown = useRef(false);
-  useEffect(() => {
-    if (performScrolldown.current) { // skip scrolldown when the component first loads
-      setTimeout(() => scrollIntoViewRef?.current?.scrollIntoView({ behavior: "auto", block: "nearest" }), 500);
-    }
-    performScrolldown.current = true;
-  }, [children]);
 
   // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
   useEffect(() => {
