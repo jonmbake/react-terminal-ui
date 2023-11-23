@@ -61,7 +61,7 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
       onInput(currentLineInput);
       setCursorPos(0);
       setCurrentLineInput('');
-      scrollIntoViewRef?.current?.scrollIntoView({ behavior: "auto", block: "center" });
+      setTimeout(() => scrollIntoViewRef?.current?.scrollIntoView({ behavior: "auto", block: "nearest" }), 500);
     } else if (["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(event.key)) { 
       const inputElement = event.currentTarget;
       let charsToRightOfCursor = "";
