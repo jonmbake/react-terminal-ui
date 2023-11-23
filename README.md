@@ -49,7 +49,7 @@ const TerminalController = (props = {}) => {
 | ------------------- | ------------- |
 | name                | Name of the terminal. Displays at the top of the rendered component. In the demo, the name is set to _React Terminal UI_. |
 | colorMode           | Terminal color mode - either Light or Dark. Defaults to Dark. |
-| onInput             | A callback function that is invoked when a user presses enter on the prompt. The function is passed the current prompt input. |
+| onInput             | An optional callback function that is invoked when a user presses enter on the prompt. The function is passed the current prompt input. If the `onInput` prop is not passed, the prompt input line will not display in the terminal. |
 | startingInputValue  | Starting input value. If this prop changes, any user-entered input will be overridden by this value. Defaults to the empty string (""). |
 | prompt              | The prompt character. Defaults to '$'. |
 | height              | Height of the terminal. Defaults to 600px. |
