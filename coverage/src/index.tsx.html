@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.36% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>67/98</span>
+                <span class='fraction'>62/93</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">44.44% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>25/55</span>
+                <span class='fraction'>24/54</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.92% </span>
+                <span class="strong">72.72% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/13</span>
+                <span class='fraction'>8/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.64% </span>
+                <span class="strong">59.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>45/73</span>
+                <span class='fraction'>41/69</span>
             </div>
         
             
@@ -195,15 +195,7 @@
 <a name='L130'></a><a href='#L130'>130</a>
 <a name='L131'></a><a href='#L131'>131</a>
 <a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a>
-<a name='L134'></a><a href='#L134'>134</a>
-<a name='L135'></a><a href='#L135'>135</a>
-<a name='L136'></a><a href='#L136'>136</a>
-<a name='L137'></a><a href='#L137'>137</a>
-<a name='L138'></a><a href='#L138'>138</a>
-<a name='L139'></a><a href='#L139'>139</a>
-<a name='L140'></a><a href='#L140'>140</a>
-<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L133'></a><a href='#L133'>133</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -262,6 +254,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -290,15 +283,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -406,6 +390,7 @@ const Terminal = ({name, prompt, height = "600px"<span class="branch-1 cbranch-n
       onInput(currentLineInput);
       setCursorPos(0);
       setCurrentLineInput('');
+      scrollIntoViewRef<span class="branch-0 cbranch-no" title="branch not covered" >?.c</span>urrent<span class="branch-0 cbranch-no" title="branch not covered" >?.s</span>crollIntoView({ behavior: "auto", block: "center" });
     } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span><span class="missing-if-branch" title="else path not taken" >E</span>if (["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(event.key)) { </span>
       const inputElement = <span class="cstat-no" title="statement not covered" >event.currentTarget;</span>
       let charsToRightOfCursor = <span class="cstat-no" title="statement not covered" >"";</span>
@@ -431,15 +416,6 @@ const Terminal = ({name, prompt, height = "600px"<span class="branch-1 cbranch-n
   useEffect(() =&gt; {
     setCurrentLineInput(startingInputValue.trim());
   }, [startingInputValue]);
-&nbsp;
-  // An effect that handles scrolling into view the last line of terminal input or output
-  const performScrolldown = useRef(false);
-  useEffect(() =&gt; {
-    if (performScrolldown.current) { // skip scrolldown when the component first loads
-      setTimeout(() =&gt; scrollIntoViewRef<span class="branch-0 cbranch-no" title="branch not covered" >?.c</span>urrent<span class="branch-0 cbranch-no" title="branch not covered" >?.s</span>crollIntoView({ behavior: "auto", block: "nearest" }), 500);
-    }
-    performScrolldown.current = true;
-  }, [children]);
 &nbsp;
   // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
   useEffect(() =&gt; {
@@ -490,7 +466,7 @@ export default Terminal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-10-25T14:08:03.907Z
+                at 2023-11-23T12:35:15.549Z
             </div>
         <script src="../prettify.js"></script>
         <script>
