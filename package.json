@@ -1,6 +1,6 @@
 {
-  "name": "react-terminal-ui",
-  "version": "1.2.0",
+  "name": "react-terminal-ui-mod",
+  "version": "1.2.1",
   "description": "A terminal react component with support for light and dark modes.",
   "main": "build/index.js",
   "module": "build/index.es.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jonmbake/react-terminal-ui.git"
+    "url": "git+https://github.com/abhitreflo/react-terminal-ui-mod.git"
   },
   "keywords": [
     "terminal",
@@ -25,12 +25,12 @@
     "light",
     "dark"
   ],
-  "author": "Jon Bake",
+  "author": "abhitreflo",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jonmbake/react-terminal-ui/issues"
   },
-  "homepage": "https://github.com/jonmbake/react-terminal-ui#readme",
+  "homepage": "https://github.com/abhitreflo/react-terminal-ui-mod#readme",
   "dependencies": {},
   "devDependencies": {
     "@testing-library/react": "^10.4.9",
