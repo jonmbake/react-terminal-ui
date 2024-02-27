@@ -7,7 +7,7 @@
  */
 .react-terminal-wrapper {
   width: 100%;
-  background: #252a33;
+  background: none;
   color: #eee;
   font-size: 18px;
   font-family: 'Fira Mono', Consolas, Menlo, Monaco, 'Courier New', Courier, monospace;
