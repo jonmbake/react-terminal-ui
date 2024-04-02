@@ -66,7 +66,6 @@ const TerminalController = (props = {}) => {
         redBtnCallback={ redBtnClick } 
         yellowBtnCallback={ yellowBtnClick } 
         greenBtnCallback={ greenBtnClick }
-        loading={true}
       >
         {lineData}
       </Terminal>
