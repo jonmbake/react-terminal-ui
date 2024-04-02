@@ -1,6 +1,6 @@
 import React, { useState, MouseEvent } from 'react'
 import ReactDOM from 'react-dom';
-import Terminal, { ColorMode, TerminalInput, TerminalOutput } from '../src/index';
+import Terminal, { ColorMode, TerminalInput, TerminalOutput, TerminalProgress } from '../src/index';
 
 import './style.css';
 
@@ -13,6 +13,7 @@ const TerminalController = (props = {}) => {
     <TerminalOutput>'view-source' will navigate to the React Terminal UI github source.</TerminalOutput>,
     <TerminalOutput>'view-react-docs' will navigate to the react docs.</TerminalOutput>,
     <TerminalOutput>'clear' will clear the terminal.</TerminalOutput>,
+    <TerminalProgress progressPercentage={0.2}></TerminalProgress>
   ]);
 
   function toggleColorMode (e: MouseEvent) {
@@ -65,6 +66,7 @@ const TerminalController = (props = {}) => {
         redBtnCallback={ redBtnClick } 
         yellowBtnCallback={ yellowBtnClick } 
         greenBtnCallback={ greenBtnClick }
+        loading={true}
       >
         {lineData}
       </Terminal>
