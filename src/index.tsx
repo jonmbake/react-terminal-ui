@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, KeyboardEvent, ChangeEvent, ReactNode, ReactNodeArray } from 'react';
 import TerminalInput from './linetypes/TerminalInput';
 import TerminalOutput from './linetypes/TerminalOutput';
+import TerminalProgress from './linetypes/TerminalProgress';
+import TerminalLoader from './linetypes/TerminalLoader'
 import './style.css';
 
 export enum ColorMode {
@@ -19,9 +21,10 @@ export interface Props {
   redBtnCallback?: () => void;
   yellowBtnCallback?: () => void;
   greenBtnCallback?: () => void;
+  loading?: boolean;
 }
 
-const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback}: Props) => {
+const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback, loading}: Props) => {
   const [currentLineInput, setCurrentLineInput] = useState('');
   const [cursorPos, setCursorPos] = useState(0);
 
@@ -120,13 +123,13 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
       </div>
       <div className="react-terminal" style={ { height } }>
         { children }
-        { typeof onInput === 'function' && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }<span className="cursor" style={{ left: `${cursorPos+1}px` }}></span></div> }
+        { typeof onInput === 'function' && !loading && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }<span className="cursor" style={{ left: `${cursorPos+1}px` }}></span></div> }
         <div ref={ scrollIntoViewRef }></div>
       </div>
-      <input className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleInputKeyDown }/>
+      {!loading && <input className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleInputKeyDown }/>}
     </div>
   );
 }
 
-export { TerminalInput, TerminalOutput };
+export { TerminalInput, TerminalOutput, TerminalProgress, TerminalLoader };
 export default Terminal;

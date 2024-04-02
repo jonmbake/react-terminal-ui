@@ -145,3 +145,36 @@
 .react-terminal-wrapper.react-terminal-light .react-terminal-progress-bar {
   background-color: #000;
 } */
+
+.react-terminal-progress {
+  display: flex;
+  margin: .5rem 0;
+  align-items: center;
+}
+
+.react-terminal-progress-filled {
+  color: #fff;
+}
+
+.react-terminal-progress-empty {
+  color: #000;
+}
+
+.react-terminal-light .react-terminal-progress-filled {
+  color: #1a1e24;
+}
+
+.react-terminal-light .react-terminal-progress-empty {
+  color: #fff;
+}
+
+.react-terminal-loader {
+  font-size: 20px;
+  margin-bottom: -2px;
+  margin-left: 0.5rem;
+}
+
+.react-terminal-progress-label {
+  margin-left: 1rem;
+  font-size: 16px;
+}
