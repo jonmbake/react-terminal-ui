@@ -19,9 +19,10 @@ export interface Props {
   redBtnCallback?: () => void;
   yellowBtnCallback?: () => void;
   greenBtnCallback?: () => void;
+  scrollToPosition?: boolean;
 }
 
-const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback}: Props) => {
+const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback, scrollToPosition = true}: Props) => {
   const [currentLineInput, setCurrentLineInput] = useState('');
   const [cursorPos, setCursorPos] = useState(0);
 
@@ -61,7 +62,10 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
       onInput(currentLineInput);
       setCursorPos(0);
       setCurrentLineInput('');
-      setTimeout(() => scrollIntoViewRef?.current?.scrollIntoView({ behavior: "auto", block: "nearest" }), 500);
+      if (scrollToPosition) {
+        setTimeout(() => scrollIntoViewRef?.current?.scrollIntoView({ behavior: "auto", block: "nearest" }), 500);
+      }
+      
     } else if (["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(event.key)) { 
       const inputElement = event.currentTarget;
       let charsToRightOfCursor = "";
