@@ -17,7 +17,8 @@ export interface Props {
     redBtnCallback?: () => void;
     yellowBtnCallback?: () => void;
     greenBtnCallback?: () => void;
+    scrollToPosition?: boolean;
 }
-declare const Terminal: ({ name, prompt, height, colorMode, onInput, children, startingInputValue, redBtnCallback, yellowBtnCallback, greenBtnCallback }: Props) => React.JSX.Element;
+declare const Terminal: ({ name, prompt, height, colorMode, onInput, children, startingInputValue, redBtnCallback, yellowBtnCallback, greenBtnCallback, scrollToPosition }: Props) => React.JSX.Element;
 export { TerminalInput, TerminalOutput };
 export default Terminal;
