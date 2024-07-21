@@ -1,7 +1,17 @@
-import React, { useState, useEffect, useRef, KeyboardEvent, ChangeEvent, ReactNode, ReactNodeArray } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  KeyboardEvent,
+  ChangeEvent,
+  ReactNode,
+  ReactNodeArray,
+  ReactElement
+} from 'react';
 import TerminalInput from './linetypes/TerminalInput';
 import TerminalOutput from './linetypes/TerminalOutput';
 import './style.css';
+import {IWindowButtonsProps, WindowButtons} from "./ui-elements/WindowButtons";
 
 export enum ColorMode {
   Light,
@@ -20,9 +30,10 @@ export interface Props {
   yellowBtnCallback?: () => void;
   greenBtnCallback?: () => void;
   scrollToPosition?: boolean;
+  TopButtonsPanel?: (props: IWindowButtonsProps) => ReactElement | null;
 }
 
-const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback, scrollToPosition = true}: Props) => {
+const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback, scrollToPosition = true, TopButtonsPanel = WindowButtons}: Props) => {
   const [currentLineInput, setCurrentLineInput] = useState('');
   const [cursorPos, setCursorPos] = useState(0);
 
@@ -117,11 +128,7 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
   }
   return (
     <div className={ classes.join(' ') } data-terminal-name={ name }>
-      <div className="react-terminal-window-buttons">
-        <button className={`${yellowBtnCallback ? "clickable": ""} red-btn`} disabled={!redBtnCallback} onClick={ redBtnCallback } />
-        <button className={`${yellowBtnCallback ? "clickable" : ""} yellow-btn`} disabled={!yellowBtnCallback} onClick={ yellowBtnCallback } />
-        <button className={`${greenBtnCallback ? "clickable" : ""} green-btn`} disabled={!greenBtnCallback} onClick={ greenBtnCallback } />
-      </div>
+      <TopButtonsPanel {...{redBtnCallback, yellowBtnCallback, greenBtnCallback}}/>
       <div className="react-terminal" style={ { height } }>
         { children }
         { typeof onInput === 'function' && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }<span className="cursor" style={{ left: `${cursorPos+1}px` }}></span></div> }
