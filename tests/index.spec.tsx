@@ -1,8 +1,7 @@
 import React from 'react';
 import Terminal, { ColorMode, TerminalInput, TerminalOutput } from '../src/index';
-import { render, fireEvent, screen, getByText  } from '@testing-library/react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-dom/test-utils';
+import { render, fireEvent, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 jest.useFakeTimers();
 
@@ -15,10 +14,10 @@ describe('Terminal component', () => {
   })
 
   test('Should render prompt', () => {
-    const { container } = render(<Terminal onInput={ (input: string) => '' }></Terminal>);
+    const { container } = render(<Terminal onInput={ (input: string) => '' } />);
     expect(container.querySelectorAll('.react-terminal-line')).toHaveLength(1);
     expect(container.querySelector('.react-terminal-line.react-terminal-active-input[data-terminal-prompt="$"]')).not.toBeNull();
-    screen.getByPlaceholderText('Terminal Hidden Input');
+    expect(screen.getByPlaceholderText('Terminal Hidden Input')).toBeInTheDocument();
   });
 
   test('Should not render prompt if onInput prop is null or not defined', () => {
