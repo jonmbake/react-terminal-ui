@@ -1,5 +1,7 @@
 build
 docs
 node_modules
-
+/.idea/
+.DS_Store
 .aider*
+
