@@ -5,7 +5,6 @@ import React, {
   KeyboardEvent,
   ChangeEvent,
   ReactNode,
-  ReactNodeArray,
   ReactElement
 } from 'react';
 import TerminalInput from './linetypes/TerminalInput';

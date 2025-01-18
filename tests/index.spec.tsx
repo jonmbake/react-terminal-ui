@@ -89,4 +89,14 @@ describe('Terminal component', () => {
     const renderedLine = screen.getByText('cat file.txt');
     expect(renderedLine.className).toContain('react-terminal-line');
   });
+
+  test('Should render top button panel by default', () => {
+    const { container } = render(<Terminal />);
+    expect(container.querySelector('.react-terminal-window-buttons')).not.toBeNull();
+  });
+
+  test('Should not render top button panel if null props passed', () => {
+    const { container } = render(<Terminal TopButtonsPanel={()=> null} />);
+    expect(container.querySelector('.react-terminal-window-buttons')).toBeNull();
+  });
 });
