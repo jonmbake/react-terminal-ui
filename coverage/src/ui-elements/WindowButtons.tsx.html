@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/linetypes/TerminalInput.tsx</title>
+    <title>Code coverage report for src/ui-elements/WindowButtons.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/linetypes</a> TerminalInput.tsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/ui-elements</a> WindowButtons.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>3/6</span>
             </div>
         
             
@@ -80,17 +80,15 @@
 <a name='L15'></a><a href='#L15'>15</a>
 <a name='L16'></a><a href='#L16'>16</a>
 <a name='L17'></a><a href='#L17'>17</a>
-<a name='L18'></a><a href='#L18'>18</a>
-<a name='L19'></a><a href='#L19'>19</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L18'></a><a href='#L18'>18</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -99,25 +97,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { PropsWithChildren } from "react";
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
 &nbsp;
-type TerminalInputProps = PropsWithChildren&lt;{
-    prompt?: string;
-}&gt;;
+interface IWindowButtonsProps {
+	redBtnCallback?: () =&gt; void;
+	yellowBtnCallback?: () =&gt; void;
+	greenBtnCallback?: () =&gt; void;
+}
 &nbsp;
-const TerminalInput = ({ children, prompt }: TerminalInputProps) =&gt; {
-    return (
-        &lt;div
-            className="react-terminal-line react-terminal-input"
-            data-terminal-prompt={prompt || "$"}
-        &gt;
-            {children}
-        &lt;/div&gt;
-    );
-};
+const WindowButtons = ({ redBtnCallback, yellowBtnCallback, greenBtnCallback }: IWindowButtonsProps) =&gt; (
+	&lt;div className="react-terminal-window-buttons"&gt;
+		&lt;button className={`${yellowBtnCallback ? <span class="branch-0 cbranch-no" title="branch not covered" >"clickable":</span> ""} red-btn`} disabled={!redBtnCallback} onClick={ redBtnCallback } /&gt;
+		&lt;button className={`${yellowBtnCallback ? <span class="branch-0 cbranch-no" title="branch not covered" >"clickable" </span>: ""} yellow-btn`} disabled={!yellowBtnCallback} onClick={ yellowBtnCallback } /&gt;
+		&lt;button className={`${greenBtnCallback ? <span class="branch-0 cbranch-no" title="branch not covered" >"clickable" </span>: ""} green-btn`} disabled={!greenBtnCallback} onClick={ greenBtnCallback } /&gt;
+	&lt;/div&gt;
+);
 &nbsp;
-export default TerminalInput;
-&nbsp;</pre></td></tr></table></pre>
+export { WindowButtons, IWindowButtonsProps};
+export default WindowButtons;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
