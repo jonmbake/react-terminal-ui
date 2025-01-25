@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.31% </span>
+                <span class="strong">67.34% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>69/101</span>
+                <span class='fraction'>66/98</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.16% </span>
+                <span class="strong">46% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>25/53</span>
+                <span class='fraction'>23/50</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60.56% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>43/71</span>
+                <span class='fraction'>42/70</span>
             </div>
         
             
@@ -201,11 +201,7 @@
 <a name='L136'></a><a href='#L136'>136</a>
 <a name='L137'></a><a href='#L137'>137</a>
 <a name='L138'></a><a href='#L138'>138</a>
-<a name='L139'></a><a href='#L139'>139</a>
-<a name='L140'></a><a href='#L140'>140</a>
-<a name='L141'></a><a href='#L141'>141</a>
-<a name='L142'></a><a href='#L142'>142</a>
-<a name='L143'></a><a href='#L143'>143</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L139'></a><a href='#L139'>139</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -222,7 +218,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -280,9 +275,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -377,11 +369,10 @@ export interface Props {
   redBtnCallback?: () =&gt; void;
   yellowBtnCallback?: () =&gt; void;
   greenBtnCallback?: () =&gt; void;
-  scrollToPosition?: boolean;
   TopButtonsPanel?: (props: IWindowButtonsProps) =&gt; ReactElement | null;
 }
 &nbsp;
-const Terminal = ({name, prompt, height = "600px"<span class="branch-1 cbranch-no" title="branch not covered" >, c</span>olorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback, scrollToPosition = true<span class="branch-1 cbranch-no" title="branch not covered" >, T</span>opButtonsPanel = WindowButtons}: Props) =&gt; {
+const Terminal = ({name, prompt, height = "600px"<span class="branch-1 cbranch-no" title="branch not covered" >, c</span>olorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback, TopButtonsPanel = WindowButtons}: Props) =&gt; {
   const [currentLineInput, setCurrentLineInput] = useState('');
   const [cursorPos, setCursorPos] = useState(0);
 &nbsp;
@@ -421,10 +412,7 @@ const Terminal = ({name, prompt, height = "600px"<span class="branch-1 cbranch-n
       onInput(currentLineInput);
       setCursorPos(0);
       setCurrentLineInput('');
-      if (scrollToPosition) {
-        setTimeout(() =&gt; scrollIntoViewRef<span class="branch-0 cbranch-no" title="branch not covered" >?.c</span>urrent<span class="branch-0 cbranch-no" title="branch not covered" >?.s</span>crollIntoView({ behavior: "auto", block: "nearest" }), 500);
-      }
-      
+      setTimeout(() =&gt; scrollIntoViewRef<span class="branch-0 cbranch-no" title="branch not covered" >?.c</span>urrent<span class="branch-0 cbranch-no" title="branch not covered" >?.s</span>crollIntoView({ behavior: "auto", block: "nearest" }), 500);
     } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span><span class="missing-if-branch" title="else path not taken" >E</span>if (["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(event.key)) { </span>
       const inputElement = <span class="cstat-no" title="statement not covered" >event.currentTarget;</span>
       let charsToRightOfCursor = <span class="cstat-no" title="statement not covered" >"";</span>
@@ -496,7 +484,7 @@ export default Terminal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-01-18T16:03:54.804Z
+                at 2025-01-25T13:40:41.585Z
             </div>
         <script src="../prettify.js"></script>
         <script>
