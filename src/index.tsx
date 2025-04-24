@@ -34,7 +34,8 @@ export interface Props {
 const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback, TopButtonsPanel = WindowButtons}: Props) => {
   const [currentLineInput, setCurrentLineInput] = useState('');
   const [cursorPos, setCursorPos] = useState(0);
-
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState<number | null>(null);
   const scrollIntoViewRef = useRef<HTMLDivElement>(null)
 
   const updateCurrentLineInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -64,35 +65,69 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
   }
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if(!onInput) {
-      return;
-    };
+    if (!onInput) return;
+  
+    const inputElement = event.currentTarget;
+  
     if (event.key === 'Enter') {
+      if (currentLineInput.trim()) {
+        setCommandHistory(prev => [...prev, currentLineInput]);
+      }
+      setHistoryIndex(null);
       onInput(currentLineInput);
       setCursorPos(0);
       setCurrentLineInput('');
       setTimeout(() => scrollIntoViewRef?.current?.scrollIntoView({ behavior: "auto", block: "nearest" }), 500);
-    } else if (["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(event.key)) { 
-      const inputElement = event.currentTarget;
+    } 
+    else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (commandHistory.length === 0) return;
+      setHistoryIndex(prev => {
+        const newIndex = prev === null ? commandHistory.length - 1 : Math.max(prev - 1, 0);
+        setCurrentLineInput(commandHistory[newIndex]);
+        return newIndex;
+      });
+    } 
+    else if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      setHistoryIndex(prev => {
+        if (prev === null) return null;
+        const newIndex = prev + 1;
+        if (newIndex >= commandHistory.length) {
+          setCurrentLineInput('');
+          return null;
+        } else {
+          setCurrentLineInput(commandHistory[newIndex]);
+          return newIndex;
+        }
+      });
+    } 
+    else if (["ArrowLeft", "ArrowRight", "Delete"].includes(event.key)) {
       let charsToRightOfCursor = "";
       let cursorIndex = currentLineInput.length - (inputElement.selectionStart || 0);
       cursorIndex = clamp(cursorIndex, 0, currentLineInput.length);
-
-      if(event.key === 'ArrowLeft') {
-        if(cursorIndex > currentLineInput.length - 1) cursorIndex --;
-        charsToRightOfCursor = currentLineInput.slice(currentLineInput.length -1 - cursorIndex);
-      }
-      else if (event.key === 'ArrowRight' || event.key === 'Delete') {
+  
+      if (event.key === 'ArrowLeft') {
+        if(cursorIndex > currentLineInput.length - 1) cursorIndex--;
+        charsToRightOfCursor = currentLineInput.slice(currentLineInput.length - 1 - cursorIndex);
+      } else if (event.key === 'ArrowRight' || event.key === 'Delete') {
         charsToRightOfCursor = currentLineInput.slice(currentLineInput.length - cursorIndex + 1);
       }
-      else if (event.key === 'ArrowUp') {
-        charsToRightOfCursor = currentLineInput.slice(0)
-      }
-
+  
       const inputWidth = calculateInputWidth(inputElement, charsToRightOfCursor);
       setCursorPos(inputWidth);
     }
-  }
+  };
+
+  useEffect(() => {
+    const storedHistory = localStorage.getItem('terminal-command-history');
+    if (storedHistory) {
+      setCommandHistory(JSON.parse(storedHistory));
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('terminal-command-history', JSON.stringify(commandHistory));
+  }, [commandHistory]);
 
   useEffect(() => {
     setCurrentLineInput(startingInputValue.trim());
