@@ -47,6 +47,11 @@ const Terminal = ({
   greenBtnCallback,
   TopButtonsPanel = WindowButtons,
 }: Props) => {
+  // local storage key
+  const terminalHistoryKey = name
+    ? `terminal-history-${name}`
+    : "terminal-history";
+
   // command history handling
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [history, setHistory] = useState<string[]>([]);
@@ -115,7 +120,8 @@ const Terminal = ({
 
       // history update
       setHistory((previousHistory) =>
-        currentLineInput.trim() === ""
+        currentLineInput.trim() === "" ||
+          previousHistory[previousHistory.length - 1] === currentLineInput.trim()
           ? previousHistory
           : [...previousHistory, currentLineInput],
       );
@@ -179,14 +185,14 @@ const Terminal = ({
 
   // history local storage persistency
   useEffect(() => {
-    const storedHistory = localStorage.getItem("terminal-history");
+    const storedHistory = localStorage.getItem(terminalHistoryKey);
     if (storedHistory) {
       setHistory(JSON.parse(storedHistory));
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("terminalhistory", JSON.stringify(history));
+    localStorage.setItem(terminalHistoryKey, JSON.stringify(history));
   }, [history]);
 
   // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
