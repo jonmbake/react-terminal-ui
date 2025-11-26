@@ -177,6 +177,18 @@ const Terminal = ({
     }
   }, [historyIndex, history.length]);
 
+  // history local storage persistency
+  useEffect(() => {
+    const storedHistory = localStorage.getItem("terminal-history");
+    if (storedHistory) {
+      setHistory(JSON.parse(storedHistory));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("terminalhistory", JSON.stringify(history));
+  }, [history]);
+
   // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
   useEffect(() => {
     if (onInput == null) {
