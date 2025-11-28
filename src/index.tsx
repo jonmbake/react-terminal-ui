@@ -110,11 +110,11 @@ const Terminal = ({
   };
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    event.preventDefault();
     if (!onInput) {
       return;
     }
     if (event.key === "Enter") {
+      event.preventDefault();
       onInput(currentLineInput);
       setCursorPos(0);
 
@@ -141,6 +141,7 @@ const Terminal = ({
         event.key,
       )
     ) {
+      event.preventDefault();
       const inputElement = event.currentTarget;
       let charsToRightOfCursor = "";
       let cursorIndex =
