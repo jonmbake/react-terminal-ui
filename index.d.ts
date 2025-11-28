@@ -1,7 +1,7 @@
-import React, { ReactNode, ReactElement } from 'react';
-import TerminalInput from './linetypes/TerminalInput';
-import TerminalOutput from './linetypes/TerminalOutput';
-import './style.css';
+import React, { ReactNode, ReactElement } from "react";
+import TerminalInput from "./linetypes/TerminalInput";
+import TerminalOutput from "./linetypes/TerminalOutput";
+import "./style.css";
 import { IWindowButtonsProps } from "./ui-elements/WindowButtons";
 export declare enum ColorMode {
     Light = 0,
@@ -20,6 +20,6 @@ export interface Props {
     greenBtnCallback?: () => void;
     TopButtonsPanel?: (props: IWindowButtonsProps) => ReactElement | null;
 }
-declare const Terminal: ({ name, prompt, height, colorMode, onInput, children, startingInputValue, redBtnCallback, yellowBtnCallback, greenBtnCallback, TopButtonsPanel }: Props) => React.JSX.Element;
+declare const Terminal: ({ name, prompt, height, colorMode, onInput, children, startingInputValue, redBtnCallback, yellowBtnCallback, greenBtnCallback, TopButtonsPanel, }: Props) => React.JSX.Element;
 export { TerminalInput, TerminalOutput };
 export default Terminal;
