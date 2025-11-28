@@ -5,16 +5,19 @@ import React, {
   KeyboardEvent,
   ChangeEvent,
   ReactNode,
-  ReactElement
-} from 'react';
-import TerminalInput from './linetypes/TerminalInput';
-import TerminalOutput from './linetypes/TerminalOutput';
-import './style.css';
-import {IWindowButtonsProps, WindowButtons} from "./ui-elements/WindowButtons";
+  ReactElement,
+} from "react";
+import TerminalInput from "./linetypes/TerminalInput";
+import TerminalOutput from "./linetypes/TerminalOutput";
+import "./style.css";
+import {
+  IWindowButtonsProps,
+  WindowButtons,
+} from "./ui-elements/WindowButtons";
 
 export enum ColorMode {
   Light,
-  Dark
+  Dark,
 }
 
 export interface Props {
@@ -31,22 +34,46 @@ export interface Props {
   TopButtonsPanel?: (props: IWindowButtonsProps) => ReactElement | null;
 }
 
-const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children, startingInputValue = "", redBtnCallback, yellowBtnCallback, greenBtnCallback, TopButtonsPanel = WindowButtons}: Props) => {
-  const [currentLineInput, setCurrentLineInput] = useState('');
+const Terminal = ({
+  name,
+  prompt,
+  height = "600px",
+  colorMode,
+  onInput,
+  children,
+  startingInputValue = "",
+  redBtnCallback,
+  yellowBtnCallback,
+  greenBtnCallback,
+  TopButtonsPanel = WindowButtons,
+}: Props) => {
+  // local storage key
+  const terminalHistoryKey = name
+    ? `terminal-history-${name}`
+    : "terminal-history";
+
+  // command history handling
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [history, setHistory] = useState<string[]>([]);
+
+  const [currentLineInput, setCurrentLineInput] = useState("");
   const [cursorPos, setCursorPos] = useState(0);
 
-  const scrollIntoViewRef = useRef<HTMLDivElement>(null)
+  const scrollIntoViewRef = useRef<HTMLDivElement>(null);
 
   const updateCurrentLineInput = (event: ChangeEvent<HTMLInputElement>) => {
     setCurrentLineInput(event.target.value);
-  }
+  };
 
   // Calculates the total width in pixels of the characters to the right of the cursor.
   // Create a temporary span element to measure the width of the characters.
-  const calculateInputWidth = (inputElement: HTMLInputElement, chars: string) => {
-    const span = document.createElement('span');
-    span.style.visibility = 'hidden';
-    span.style.position = 'absolute';
+  const calculateInputWidth = (
+    inputElement: HTMLInputElement,
+    chars: string,
+  ) => {
+    const span = document.createElement("span");
+    span.style.visibility = "hidden";
+    span.style.position = "absolute";
     span.style.fontSize = window.getComputedStyle(inputElement).fontSize;
     span.style.fontFamily = window.getComputedStyle(inputElement).fontFamily;
     span.innerText = chars;
@@ -57,46 +84,116 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
     return -width;
   };
 
+  // Change index ensuring it doesn't go out of bound
+  const changeHistoryIndex = (direction: 1 | -1) => {
+    setHistoryIndex((oldIndex) => {
+      if (history.length === 0) return -1;
+
+      // If we're not currently looking at history (oldIndex === -1) and user presses ArrowUp, jump to the last entry.
+      if (oldIndex === -1 && direction === -1) {
+        return history.length - 1;
+      }
+
+      // If oldIndex === -1 and direction === 1 (ArrowDown), keep -1 (nothing to go to).
+      if (oldIndex === -1 && direction === 1) {
+        return -1;
+      }
+
+      return clamp(oldIndex + direction, 0, history.length - 1);
+    });
+  };
+
   const clamp = (value: number, min: number, max: number) => {
-    if(value > max) return max;
-    if(value < min) return min;
+    if (value > max) return max;
+    if (value < min) return min;
     return value;
-  }
+  };
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if(!onInput) {
+    event.preventDefault();
+    if (!onInput) {
       return;
-    };
-    if (event.key === 'Enter') {
+    }
+    if (event.key === "Enter") {
       onInput(currentLineInput);
       setCursorPos(0);
-      setCurrentLineInput('');
-      setTimeout(() => scrollIntoViewRef?.current?.scrollIntoView({ behavior: "auto", block: "nearest" }), 500);
-    } else if (["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(event.key)) { 
+
+      // history update
+      setHistory((previousHistory) =>
+        currentLineInput.trim() === "" ||
+          previousHistory[previousHistory.length - 1] === currentLineInput.trim()
+          ? previousHistory
+          : [...previousHistory, currentLineInput],
+      );
+      setHistoryIndex(-1);
+
+      setCurrentLineInput("");
+      setTimeout(
+        () =>
+          scrollIntoViewRef?.current?.scrollIntoView({
+            behavior: "auto",
+            block: "nearest",
+          }),
+        500,
+      );
+    } else if (
+      ["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(
+        event.key,
+      )
+    ) {
       const inputElement = event.currentTarget;
       let charsToRightOfCursor = "";
-      let cursorIndex = currentLineInput.length - (inputElement.selectionStart || 0);
+      let cursorIndex =
+        currentLineInput.length - (inputElement.selectionStart || 0);
       cursorIndex = clamp(cursorIndex, 0, currentLineInput.length);
 
-      if(event.key === 'ArrowLeft') {
-        if(cursorIndex > currentLineInput.length - 1) cursorIndex --;
-        charsToRightOfCursor = currentLineInput.slice(currentLineInput.length -1 - cursorIndex);
-      }
-      else if (event.key === 'ArrowRight' || event.key === 'Delete') {
-        charsToRightOfCursor = currentLineInput.slice(currentLineInput.length - cursorIndex + 1);
-      }
-      else if (event.key === 'ArrowUp') {
-        charsToRightOfCursor = currentLineInput.slice(0)
+      if (event.key === "ArrowLeft") {
+        if (cursorIndex > currentLineInput.length - 1) cursorIndex--;
+        charsToRightOfCursor = currentLineInput.slice(
+          currentLineInput.length - 1 - cursorIndex,
+        );
+      } else if (event.key === "ArrowRight" || event.key === "Delete") {
+        charsToRightOfCursor = currentLineInput.slice(
+          currentLineInput.length - cursorIndex + 1,
+        );
+      } else if (event.key === "ArrowUp") {
+        charsToRightOfCursor = currentLineInput.slice(0);
+        changeHistoryIndex(-1);
+      } else if (event.key === "ArrowDown") {
+        charsToRightOfCursor = currentLineInput.slice(0);
+        changeHistoryIndex(1);
       }
 
-      const inputWidth = calculateInputWidth(inputElement, charsToRightOfCursor);
+      const inputWidth = calculateInputWidth(
+        inputElement,
+        charsToRightOfCursor,
+      );
       setCursorPos(inputWidth);
     }
-  }
+  };
 
   useEffect(() => {
     setCurrentLineInput(startingInputValue.trim());
   }, [startingInputValue]);
+
+  // If history index changes or history length changes, we want to update the input value
+  useEffect(() => {
+    if (historyIndex >= 0 && historyIndex < history.length) {
+      setCurrentLineInput(history[historyIndex]);
+    }
+  }, [historyIndex, history.length]);
+
+  // history local storage persistency
+  useEffect(() => {
+    const storedHistory = localStorage.getItem(terminalHistoryKey);
+    if (storedHistory) {
+      setHistory(JSON.parse(storedHistory));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(terminalHistoryKey, JSON.stringify(history));
+  }, [history]);
 
   // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
   useEffect(() => {
@@ -104,35 +201,65 @@ const Terminal = ({name, prompt, height = "600px", colorMode, onInput, children,
       return;
     }
     // keep reference to listeners so we can perform cleanup
-    const elListeners: { terminalEl: Element; listener: EventListenerOrEventListenerObject }[] = [];
-    for (const terminalEl of document.getElementsByClassName('react-terminal-wrapper')) {
-      const listener = () => (terminalEl?.querySelector('.terminal-hidden-input') as HTMLElement)?.focus();
-      terminalEl?.addEventListener('click', listener);
+    const elListeners: {
+      terminalEl: Element;
+      listener: EventListenerOrEventListenerObject;
+    }[] = [];
+    for (const terminalEl of document.getElementsByClassName(
+      "react-terminal-wrapper",
+    )) {
+      const listener = () =>
+        (
+          terminalEl?.querySelector(".terminal-hidden-input") as HTMLElement
+        )?.focus();
+      terminalEl?.addEventListener("click", listener);
       elListeners.push({ terminalEl, listener });
     }
-    return function cleanup () {
-      elListeners.forEach(elListener => {
-        elListener.terminalEl.removeEventListener('click', elListener.listener);
+    return function cleanup() {
+      elListeners.forEach((elListener) => {
+        elListener.terminalEl.removeEventListener("click", elListener.listener);
       });
-    }
+    };
   }, [onInput]);
 
-  const classes = ['react-terminal-wrapper'];
+  const classes = ["react-terminal-wrapper"];
   if (colorMode === ColorMode.Light) {
-    classes.push('react-terminal-light');
+    classes.push("react-terminal-light");
   }
+
   return (
-    <div className={ classes.join(' ') } data-terminal-name={ name }>
-      <TopButtonsPanel {...{redBtnCallback, yellowBtnCallback, greenBtnCallback}}/>
-      <div className="react-terminal" style={ { height } }>
-        { children }
-        { typeof onInput === 'function' && <div className="react-terminal-line react-terminal-input react-terminal-active-input" data-terminal-prompt={ prompt || '$' } key="terminal-line-prompt" >{ currentLineInput }<span className="cursor" style={{ left: `${cursorPos+1}px` }}></span></div> }
-        <div ref={ scrollIntoViewRef }></div>
+    <div className={classes.join(" ")} data-terminal-name={name}>
+      <TopButtonsPanel
+        {...{ redBtnCallback, yellowBtnCallback, greenBtnCallback }}
+      />
+      <div className="react-terminal" style={{ height }}>
+        {children}
+        {typeof onInput === "function" && (
+          <div
+            className="react-terminal-line react-terminal-input react-terminal-active-input"
+            data-terminal-prompt={prompt || "$"}
+            key="terminal-line-prompt"
+          >
+            {currentLineInput}
+            <span
+              className="cursor"
+              style={{ left: `${cursorPos + 1}px` }}
+            ></span>
+          </div>
+        )}
+        <div ref={scrollIntoViewRef}></div>
       </div>
-      <input className="terminal-hidden-input" placeholder="Terminal Hidden Input" value={ currentLineInput } autoFocus={ onInput != null } onChange={ updateCurrentLineInput } onKeyDown={ handleInputKeyDown }/>
+      <input
+        className="terminal-hidden-input"
+        placeholder="Terminal Hidden Input"
+        value={currentLineInput}
+        autoFocus={onInput != null}
+        onChange={updateCurrentLineInput}
+        onKeyDown={handleInputKeyDown}
+      />
     </div>
   );
-}
+};
 
 export { TerminalInput, TerminalOutput };
 export default Terminal;
