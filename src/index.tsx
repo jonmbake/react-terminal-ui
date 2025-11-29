@@ -121,7 +121,7 @@ const Terminal = ({
       // history update
       setHistory((previousHistory) =>
         currentLineInput.trim() === "" ||
-          previousHistory[previousHistory.length - 1] === currentLineInput.trim()
+        previousHistory[previousHistory.length - 1] === currentLineInput.trim()
           ? previousHistory
           : [...previousHistory, currentLineInput],
       );
@@ -141,7 +141,6 @@ const Terminal = ({
         event.key,
       )
     ) {
-      event.preventDefault();
       const inputElement = event.currentTarget;
       let charsToRightOfCursor = "";
       let cursorIndex =
@@ -158,10 +157,12 @@ const Terminal = ({
           currentLineInput.length - cursorIndex + 1,
         );
       } else if (event.key === "ArrowUp") {
-        charsToRightOfCursor = currentLineInput.slice(0);
+        event.preventDefault();
+        charsToRightOfCursor = currentLineInput.slice(currentLineInput.length);
         changeHistoryIndex(-1);
       } else if (event.key === "ArrowDown") {
-        charsToRightOfCursor = currentLineInput.slice(0);
+        event.preventDefault();
+        charsToRightOfCursor = currentLineInput.slice(currentLineInput.length);
         changeHistoryIndex(1);
       }
 
