@@ -97,7 +97,7 @@ const Terminal = ({
         return history.length - 1;
       }
 
-      // If we're in the last history entry and user presses ArrowDown, go back to the temporary input value.
+      // If we're at the most recent history entry and user presses ArrowDown, go back to the temporary input value.
       if (oldIndex === history.length - 1 && direction === 1) {
         setCurrentLineInput(tmpInputValue);
         setTmpInputValue("");
