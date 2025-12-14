@@ -57,6 +57,8 @@ const Terminal = ({
   const [history, setHistory] = useState<string[]>([]);
 
   const [currentLineInput, setCurrentLineInput] = useState("");
+  const [tmpInputValue, setTmpInputValue] = useState("");
+
   const [cursorPos, setCursorPos] = useState(0);
 
   const scrollIntoViewRef = useRef<HTMLDivElement>(null);
@@ -91,7 +93,15 @@ const Terminal = ({
 
       // If we're not currently looking at history (oldIndex === -1) and user presses ArrowUp, jump to the last entry.
       if (oldIndex === -1 && direction === -1) {
+        setTmpInputValue(currentLineInput);
         return history.length - 1;
+      }
+
+      // If we're at the most recent history entry and user presses ArrowDown, go back to the temporary input value.
+      if (oldIndex === history.length - 1 && direction === 1) {
+        setCurrentLineInput(tmpInputValue);
+        setTmpInputValue("");
+        return -1;
       }
 
       // If oldIndex === -1 and direction === 1 (ArrowDown), keep -1 (nothing to go to).
@@ -119,15 +129,19 @@ const Terminal = ({
       setCursorPos(0);
 
       // history update
-      setHistory((previousHistory) =>
-        currentLineInput.trim() === "" ||
-        previousHistory[previousHistory.length - 1] === currentLineInput.trim()
-          ? previousHistory
-          : [...previousHistory, currentLineInput],
-      );
-      setHistoryIndex(-1);
+      if (currentLineInput.trim() !== "") {
+        setHistory((previousHistory) =>
+          previousHistory[previousHistory.length - 1] ===
+            currentLineInput.trim()
+            ? previousHistory
+            : [...previousHistory, currentLineInput],
+        );
+      }
 
+      setHistoryIndex(-1);
       setCurrentLineInput("");
+      setTmpInputValue("");
+
       setTimeout(
         () =>
           scrollIntoViewRef?.current?.scrollIntoView({

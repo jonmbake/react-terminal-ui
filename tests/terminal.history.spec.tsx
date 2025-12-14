@@ -102,4 +102,32 @@ describe("Terminal history persistence", () => {
 
     expect(input).toHaveValue("first");
   });
+
+  test("preserves current input when navigating history and returning back down", () => {
+    localStorage.setItem("terminal-history", JSON.stringify(["old1", "old2"]));
+
+    render(<Terminal onInput={() => { }} />);
+    const input = screen.getByPlaceholderText("Terminal Hidden Input");
+
+    fireEvent.change(input, { target: { value: "new-typing" } });
+
+    fireEvent.keyDown(input, { key: "ArrowUp" });
+    expect(input).toHaveValue("old2");
+
+    fireEvent.keyDown(input, { key: "ArrowDown" });
+    expect(input).toHaveValue("new-typing");
+  });
+
+  test("does not clear input when ArrowDown is pressed while at latest history entry", () => {
+    localStorage.setItem("terminal-history", JSON.stringify(["cmdA", "cmdB"]));
+
+    render(<Terminal onInput={() => { }} />);
+    const input = screen.getByPlaceholderText("Terminal Hidden Input");
+
+    fireEvent.keyDown(input, { key: "ArrowUp" });
+    expect(input).toHaveValue("cmdB");
+
+    fireEvent.keyDown(input, { key: "ArrowDown" });
+    expect(input).toHaveValue("");
+  });
 });
