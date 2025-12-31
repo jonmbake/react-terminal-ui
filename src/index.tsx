@@ -2,6 +2,7 @@ import React, {
   useState,
   useEffect,
   useRef,
+  useCallback,
   KeyboardEvent,
   ChangeEvent,
   ReactNode,
@@ -14,6 +15,17 @@ import {
   IWindowButtonsProps,
   WindowButtons,
 } from "./ui-elements/WindowButtons";
+
+// Constants
+const SCROLL_INTO_VIEW_DELAY_MS = 500;
+const CURSOR_POSITION_OFFSET_PX = 1;
+
+/** Clamps a value between a minimum and maximum */
+const clamp = (value: number, min: number, max: number) => {
+  if (value > max) return max;
+  if (value < min) return min;
+  return value;
+};
 
 export enum ColorMode {
   Light,
@@ -65,9 +77,12 @@ const Terminal = ({
 
   const scrollIntoViewRef = useRef<HTMLDivElement>(null);
 
-  const updateCurrentLineInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setCurrentLineInput(event.target.value);
-  };
+  const updateCurrentLineInput = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setCurrentLineInput(event.target.value);
+    },
+    [],
+  );
 
   // Calculates the total width in pixels of the characters to the right of the cursor.
   // Uses canvas measureText for better performance than DOM manipulation.
@@ -114,12 +129,6 @@ const Terminal = ({
     });
   };
 
-  const clamp = (value: number, min: number, max: number) => {
-    if (value > max) return max;
-    if (value < min) return min;
-    return value;
-  };
-
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (!onInput) {
       return;
@@ -149,7 +158,7 @@ const Terminal = ({
             behavior: "auto",
             block: "nearest",
           }),
-        500,
+        SCROLL_INTO_VIEW_DELAY_MS,
       );
     } else if (
       ["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(
@@ -264,7 +273,7 @@ const Terminal = ({
             {passwordField ? "*".repeat(currentLineInput.length) : currentLineInput}
             <span
               className="cursor"
-              style={{ left: `${cursorPos + 1}px` }}
+              style={{ left: `${cursorPos + CURSOR_POSITION_OFFSET_PX}px` }}
             ></span>
           </div>
         )}
