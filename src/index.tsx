@@ -70,22 +70,21 @@ const Terminal = ({
   };
 
   // Calculates the total width in pixels of the characters to the right of the cursor.
-  // Create a temporary span element to measure the width of the characters.
+  // Uses canvas measureText for better performance than DOM manipulation.
   const calculateInputWidth = (
     inputElement: HTMLInputElement,
     chars: string,
   ) => {
-    const span = document.createElement("span");
-    span.style.visibility = "hidden";
-    span.style.position = "absolute";
-    span.style.fontSize = window.getComputedStyle(inputElement).fontSize;
-    span.style.fontFamily = window.getComputedStyle(inputElement).fontFamily;
-    span.innerText = chars;
-    document.body.appendChild(span);
-    const width = span.getBoundingClientRect().width;
-    document.body.removeChild(span);
-    // Return the negative width, since the cursor position is to the left of the input suffix
-    return -width;
+    const computedStyle = window.getComputedStyle(inputElement);
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    if (context) {
+      context.font = `${computedStyle.fontSize} ${computedStyle.fontFamily}`;
+      const width = context.measureText(chars).width;
+      // Return the negative width, since the cursor position is to the left of the input suffix
+      return -width;
+    }
+    return 0;
   };
 
   // Change index ensuring it doesn't go out of bound
@@ -131,12 +130,12 @@ const Terminal = ({
       setCursorPos(0);
 
       // history update
-      if (currentLineInput.trim() !== "") {
+      const trimmedInput = currentLineInput.trim();
+      if (trimmedInput !== "") {
         setHistory((previousHistory) =>
-          previousHistory[previousHistory.length - 1] ===
-            currentLineInput.trim()
+          previousHistory[previousHistory.length - 1] === trimmedInput
             ? previousHistory
-            : [...previousHistory, currentLineInput],
+            : [...previousHistory, trimmedInput],
         );
       }
 
