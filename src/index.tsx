@@ -205,13 +205,17 @@ const Terminal = ({
   useEffect(() => {
     const storedHistory = localStorage.getItem(terminalHistoryKey);
     if (storedHistory) {
-      setHistory(JSON.parse(storedHistory));
+      try {
+        setHistory(JSON.parse(storedHistory));
+      } catch (e) {
+        console.error('Failed to parse terminal history from localStorage:', e);
+      }
     }
-  }, []);
+  }, [terminalHistoryKey]);
 
   useEffect(() => {
     localStorage.setItem(terminalHistoryKey, JSON.stringify(history));
-  }, [history]);
+  }, [terminalHistoryKey, history]);
 
   // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
   useEffect(() => {

@@ -8,7 +8,7 @@ interface IWindowButtonsProps {
 
 const WindowButtons = ({ redBtnCallback, yellowBtnCallback, greenBtnCallback }: IWindowButtonsProps) => (
 	<div className="react-terminal-window-buttons">
-		<button className={`${yellowBtnCallback ? "clickable": ""} red-btn`} disabled={!redBtnCallback} onClick={ redBtnCallback } />
+		<button className={`${redBtnCallback ? "clickable": ""} red-btn`} disabled={!redBtnCallback} onClick={ redBtnCallback } />
 		<button className={`${yellowBtnCallback ? "clickable" : ""} yellow-btn`} disabled={!yellowBtnCallback} onClick={ yellowBtnCallback } />
 		<button className={`${greenBtnCallback ? "clickable" : ""} green-btn`} disabled={!greenBtnCallback} onClick={ greenBtnCallback } />
 	</div>
