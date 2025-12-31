@@ -5,6 +5,7 @@ import Terminal, { ColorMode, TerminalInput, TerminalOutput } from '../src/index
 import './style.css';
 
 const TerminalController = (props = {}) => {
+  const [isPasswordMode, setIsPasswordMode] = useState<boolean>(false);
   const [colorMode, setColorMode] = useState(ColorMode.Dark);
   const [lineData, setLineData] = useState([
     <TerminalOutput>Welcome to the React Terminal UI Demo!&#128075;</TerminalOutput>,
@@ -12,27 +13,38 @@ const TerminalController = (props = {}) => {
     <TerminalOutput>The following example commands are provided:</TerminalOutput>,
     <TerminalOutput>'view-source' will navigate to the React Terminal UI github source.</TerminalOutput>,
     <TerminalOutput>'view-react-docs' will navigate to the react docs.</TerminalOutput>,
+    <TerminalOutput>'login' will show input password with "*" instead of real string</TerminalOutput>,
     <TerminalOutput>'clear' will clear the terminal.</TerminalOutput>,
   ]);
 
-  function toggleColorMode (e: MouseEvent) {
+  function toggleColorMode(e: MouseEvent) {
     e.preventDefault();
     setColorMode(colorMode === ColorMode.Light ? ColorMode.Dark : ColorMode.Light);
   }
 
-  function onInput (input: string) {
-      let ld = [...lineData];
+  function onInput(input: string) {
+    let ld = [...lineData];
+    if (isPasswordMode) {
+      ld.push(<TerminalInput>{'*'.repeat(input.length)}</TerminalInput>);
+      ld.push(<TerminalOutput>Your password received successfully</TerminalOutput>);
+      setIsPasswordMode(false);
+      setLineData(ld);
+    } else {
       ld.push(<TerminalInput>{input}</TerminalInput>);
-    if (input.toLocaleLowerCase().trim() === 'view-source') {
-      window.open('https://github.com/jonmbake/react-terminal-ui', '_blank');
-    } else if (input.toLocaleLowerCase().trim() === 'view-react-docs') {
-      window.open('https://reactjs.org/docs/getting-started.html', '_blank');
-    } else if (input.toLocaleLowerCase().trim() === 'clear') {
-      ld = [];
-    } else if (input) {
-      ld.push(<TerminalOutput>Unrecognized command</TerminalOutput>);
+      if (input.toLocaleLowerCase().trim() === 'view-source') {
+        window.open('https://github.com/jonmbake/react-terminal-ui', '_blank');
+      } else if (input.toLocaleLowerCase().trim() === 'view-react-docs') {
+        window.open('https://reactjs.org/docs/getting-started.html', '_blank');
+      } else if (input.toLocaleLowerCase().trim() === 'clear') {
+        ld = [];
+      } else if (input.toLocaleLowerCase().trim() === 'login') {
+        ld.push(<TerminalOutput>Please enter your password:</TerminalOutput>);
+        setIsPasswordMode(true);
+      } else if (input) {
+        ld.push(<TerminalOutput>Unrecognized command</TerminalOutput>);
+      }
+      setLineData(ld);
     }
-    setLineData(ld);
   }
 
   const redBtnClick = () => {
@@ -56,15 +68,16 @@ const TerminalController = (props = {}) => {
   return (
     <div className="container" >
       <div className="d-flex flex-row-reverse p-2">
-        <button className={ btnClasses.join(' ') } onClick={ toggleColorMode } >Enable { colorMode === ColorMode.Light ? 'Dark' : 'Light' } Mode</button>
+        <button className={btnClasses.join(' ')} onClick={toggleColorMode} >Enable {colorMode === ColorMode.Light ? 'Dark' : 'Light'} Mode</button>
       </div>
-      <Terminal 
-        name='React Terminal UI' 
-        colorMode={ colorMode }  
-        onInput={ onInput } 
-        redBtnCallback={ redBtnClick } 
-        yellowBtnCallback={ yellowBtnClick } 
-        greenBtnCallback={ greenBtnClick }
+      <Terminal
+        name='React Terminal UI'
+        colorMode={colorMode}
+        onInput={onInput}
+        redBtnCallback={redBtnClick}
+        yellowBtnCallback={yellowBtnClick}
+        greenBtnCallback={greenBtnClick}
+        passwordField={isPasswordMode}
       >
         {lineData}
       </Terminal>

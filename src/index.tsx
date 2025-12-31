@@ -28,6 +28,7 @@ export interface Props {
   children?: ReactNode;
   onInput?: ((input: string) => void) | null | undefined;
   startingInputValue?: string;
+  passwordField?: boolean;
   redBtnCallback?: () => void;
   yellowBtnCallback?: () => void;
   greenBtnCallback?: () => void;
@@ -42,6 +43,7 @@ const Terminal = ({
   onInput,
   children,
   startingInputValue = "",
+  passwordField = false,
   redBtnCallback,
   yellowBtnCallback,
   greenBtnCallback,
@@ -256,7 +258,7 @@ const Terminal = ({
             data-terminal-prompt={prompt || "$"}
             key="terminal-line-prompt"
           >
-            {currentLineInput}
+            {passwordField ? "*".repeat(currentLineInput.length) : currentLineInput}
             <span
               className="cursor"
               style={{ left: `${cursorPos + 1}px` }}
@@ -269,6 +271,7 @@ const Terminal = ({
         className="terminal-hidden-input"
         placeholder="Terminal Hidden Input"
         value={currentLineInput}
+        type={passwordField ? "password" : "text"}
         autoFocus={onInput != null}
         onChange={updateCurrentLineInput}
         onKeyDown={handleInputKeyDown}
