@@ -1,20 +1,20 @@
 import React, { useState, MouseEvent } from 'react'
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Terminal, { ColorMode, TerminalInput, TerminalOutput } from '../src/index';
 
 import './style.css';
 
-const TerminalController = (props = {}) => {
+const TerminalController = () => {
   const [isPasswordMode, setIsPasswordMode] = useState<boolean>(false);
   const [colorMode, setColorMode] = useState(ColorMode.Dark);
   const [lineData, setLineData] = useState([
-    <TerminalOutput>Welcome to the React Terminal UI Demo!&#128075;</TerminalOutput>,
-    <TerminalOutput></TerminalOutput>,
-    <TerminalOutput>The following example commands are provided:</TerminalOutput>,
-    <TerminalOutput>'view-source' will navigate to the React Terminal UI github source.</TerminalOutput>,
-    <TerminalOutput>'view-react-docs' will navigate to the react docs.</TerminalOutput>,
-    <TerminalOutput>'login' will show input password with "*" instead of real string</TerminalOutput>,
-    <TerminalOutput>'clear' will clear the terminal.</TerminalOutput>,
+    <TerminalOutput key="welcome">Welcome to the React Terminal UI Demo!&#128075;</TerminalOutput>,
+    <TerminalOutput key="empty"></TerminalOutput>,
+    <TerminalOutput key="commands">The following example commands are provided:</TerminalOutput>,
+    <TerminalOutput key="view-source">&apos;view-source&apos; will navigate to the React Terminal UI github source.</TerminalOutput>,
+    <TerminalOutput key="view-react">&apos;view-react-docs&apos; will navigate to the react docs.</TerminalOutput>,
+    <TerminalOutput key="login">&apos;login&apos; will show input password with &quot;*&quot; instead of real string</TerminalOutput>,
+    <TerminalOutput key="clear">&apos;clear&apos; will clear the terminal.</TerminalOutput>,
   ]);
 
   function toggleColorMode(e: MouseEvent) {
@@ -85,9 +85,10 @@ const TerminalController = (props = {}) => {
   )
 };
 
-ReactDOM.render(
+const container = document.getElementById('terminal')!;
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
     <TerminalController />
-  </React.StrictMode>,
-  document.getElementById('terminal')
+  </React.StrictMode>
 );
