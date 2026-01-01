@@ -8,9 +8,9 @@ A terminal [React](https://github.com/facebook/react) component with support for
 
 Check out the **[Demo](https://jonmbake.github.io/react-terminal-ui/demo/)** :heart_eyes:
 
-![React Terminal UI Demo Dark](https://github.com/jonmbake/screenshots/raw/main/react-terminal-ui/react-terminal-ui-demo-dark.png)
+![React Terminal UI Demo Dark](https://github.com/jonmbake/screenshots/raw/master/react-terminal-ui/react-terminal-ui-demo-dark.png)
 
-![React Terminal UI Demo Light](https://github.com/jonmbake/screenshots/raw/main/react-terminal-ui/react-terminal-ui-demo-light.png)
+![React Terminal UI Demo Light](https://github.com/jonmbake/screenshots/raw/master/react-terminal-ui/react-terminal-ui-demo-light.png)
 
 ## Installation
 
