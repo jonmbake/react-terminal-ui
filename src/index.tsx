@@ -2,6 +2,7 @@ import React, {
   useState,
   useEffect,
   useRef,
+  useCallback,
   KeyboardEvent,
   ChangeEvent,
   ReactNode,
@@ -14,6 +15,17 @@ import {
   IWindowButtonsProps,
   WindowButtons,
 } from "./ui-elements/WindowButtons";
+
+// Constants
+const SCROLL_INTO_VIEW_DELAY_MS = 500;
+const CURSOR_POSITION_OFFSET_PX = 1;
+
+/** Clamps a value between a minimum and maximum */
+const clamp = (value: number, min: number, max: number) => {
+  if (value > max) return max;
+  if (value < min) return min;
+  return value;
+};
 
 export enum ColorMode {
   Light,
@@ -65,27 +77,29 @@ const Terminal = ({
 
   const scrollIntoViewRef = useRef<HTMLDivElement>(null);
 
-  const updateCurrentLineInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setCurrentLineInput(event.target.value);
-  };
+  const updateCurrentLineInput = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setCurrentLineInput(event.target.value);
+    },
+    [],
+  );
 
   // Calculates the total width in pixels of the characters to the right of the cursor.
-  // Create a temporary span element to measure the width of the characters.
+  // Uses canvas measureText for better performance than DOM manipulation.
   const calculateInputWidth = (
     inputElement: HTMLInputElement,
     chars: string,
   ) => {
-    const span = document.createElement("span");
-    span.style.visibility = "hidden";
-    span.style.position = "absolute";
-    span.style.fontSize = window.getComputedStyle(inputElement).fontSize;
-    span.style.fontFamily = window.getComputedStyle(inputElement).fontFamily;
-    span.innerText = chars;
-    document.body.appendChild(span);
-    const width = span.getBoundingClientRect().width;
-    document.body.removeChild(span);
-    // Return the negative width, since the cursor position is to the left of the input suffix
-    return -width;
+    const computedStyle = window.getComputedStyle(inputElement);
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    if (context) {
+      context.font = `${computedStyle.fontSize} ${computedStyle.fontFamily}`;
+      const width = context.measureText(chars).width;
+      // Return the negative width, since the cursor position is to the left of the input suffix
+      return -width;
+    }
+    return 0;
   };
 
   // Change index ensuring it doesn't go out of bound
@@ -115,12 +129,6 @@ const Terminal = ({
     });
   };
 
-  const clamp = (value: number, min: number, max: number) => {
-    if (value > max) return max;
-    if (value < min) return min;
-    return value;
-  };
-
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (!onInput) {
       return;
@@ -131,12 +139,12 @@ const Terminal = ({
       setCursorPos(0);
 
       // history update
-      if (currentLineInput.trim() !== "") {
+      const trimmedInput = currentLineInput.trim();
+      if (trimmedInput !== "") {
         setHistory((previousHistory) =>
-          previousHistory[previousHistory.length - 1] ===
-            currentLineInput.trim()
+          previousHistory[previousHistory.length - 1] === trimmedInput
             ? previousHistory
-            : [...previousHistory, currentLineInput],
+            : [...previousHistory, trimmedInput],
         );
       }
 
@@ -150,7 +158,7 @@ const Terminal = ({
             behavior: "auto",
             block: "nearest",
           }),
-        500,
+        SCROLL_INTO_VIEW_DELAY_MS,
       );
     } else if (
       ["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Delete"].includes(
@@ -205,13 +213,17 @@ const Terminal = ({
   useEffect(() => {
     const storedHistory = localStorage.getItem(terminalHistoryKey);
     if (storedHistory) {
-      setHistory(JSON.parse(storedHistory));
+      try {
+        setHistory(JSON.parse(storedHistory));
+      } catch (e) {
+        console.error('Failed to parse terminal history from localStorage:', e);
+      }
     }
-  }, []);
+  }, [terminalHistoryKey]);
 
   useEffect(() => {
     localStorage.setItem(terminalHistoryKey, JSON.stringify(history));
-  }, [history]);
+  }, [terminalHistoryKey, history]);
 
   // We use a hidden input to capture terminal input; make sure the hidden input is focused when clicking anywhere on the terminal
   useEffect(() => {
@@ -261,7 +273,7 @@ const Terminal = ({
             {passwordField ? "*".repeat(currentLineInput.length) : currentLineInput}
             <span
               className="cursor"
-              style={{ left: `${cursorPos + 1}px` }}
+              style={{ left: `${cursorPos + CURSOR_POSITION_OFFSET_PX}px` }}
             ></span>
           </div>
         )}

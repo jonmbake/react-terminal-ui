@@ -1,6 +1,7 @@
 {
   "name": "react-terminal-ui",
   "version": "1.4.0",
+  "type": "module",
   "description": "A terminal react component with support for light and dark modes.",
   "main": "build/index.js",
   "module": "build/index.es.js",
@@ -12,7 +13,8 @@
   "scripts": {
     "build": "./bin/build.sh",
     "install-peers": "install-peers -f",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src demo tests --ext .ts,.tsx"
   },
   "repository": {
     "type": "git",
@@ -32,11 +34,16 @@
   },
   "homepage": "https://github.com/jonmbake/react-terminal-ui#readme",
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.0",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.7",
-    "@testing-library/jest-dom": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.49.0",
+    "@typescript-eslint/parser": "^8.49.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "identity-obj-proxy": "^3.0.0",
     "install-peers-cli": "^2.2.0",
     "jest": "^29.6.2",

@@ -14,7 +14,7 @@ describe('Terminal component', () => {
   })
 
   test('Should render prompt', () => {
-    const { container } = render(<Terminal onInput={(input: string) => ''} />);
+    const { container } = render(<Terminal onInput={() => ''} />);
     expect(container.querySelectorAll('.react-terminal-line')).toHaveLength(1);
     expect(container.querySelector('.react-terminal-line.react-terminal-active-input[data-terminal-prompt="$"]')).not.toBeNull();
     expect(screen.getByPlaceholderText('Terminal Hidden Input')).toBeInTheDocument();
@@ -30,7 +30,7 @@ describe('Terminal component', () => {
 
   test('Should render terminal lines', () => {
     const { container } = render(
-      <Terminal onInput={(input: string) => ''}>
+      <Terminal onInput={() => ''}>
         <TerminalInput>Some terminal input</TerminalInput>,
         <TerminalOutput>Some terminal output</TerminalOutput>
       </Terminal>
@@ -44,7 +44,7 @@ describe('Terminal component', () => {
 
   test('Input prompt should not scroll into view when component first loads', () => {
     render(
-      <Terminal onInput={(input: string) => ''}>
+      <Terminal onInput={() => ''}>
         <TerminalInput>Some terminal input</TerminalInput>,
         <TerminalOutput>Some terminal output</TerminalOutput>
       </Terminal>
@@ -69,12 +69,12 @@ describe('Terminal component', () => {
   });
 
   test('Should support changing color mode', () => {
-    const { container } = render(<Terminal colorMode={ColorMode.Light} onInput={(input: string) => ''} />);
+    const { container } = render(<Terminal colorMode={ColorMode.Light} onInput={() => ''} />);
     expect(container.querySelector('.react-terminal-wrapper.react-terminal-light')).not.toBeNull();
   });
 
   test('Should focus if onInput is defined', () => {
-    const { container } = render(<Terminal onInput={(input: string) => ''} />)
+    const { container } = render(<Terminal onInput={() => ''} />)
     expect(container.ownerDocument.activeElement?.nodeName).toEqual('INPUT');
     expect(container.ownerDocument.activeElement?.className).toEqual('terminal-hidden-input');
   });
@@ -85,7 +85,7 @@ describe('Terminal component', () => {
   });
 
   test('Should take starting input value', () => {
-    render(<Terminal onInput={(input: string) => ''} startingInputValue="cat file.txt " />)
+    render(<Terminal onInput={() => ''} startingInputValue="cat file.txt " />)
     const renderedLine = screen.getByText('cat file.txt');
     expect(renderedLine.className).toContain('react-terminal-line');
   });
