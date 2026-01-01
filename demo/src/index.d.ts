@@ -15,11 +15,12 @@ export interface Props {
     children?: ReactNode;
     onInput?: ((input: string) => void) | null | undefined;
     startingInputValue?: string;
+    passwordField?: boolean;
     redBtnCallback?: () => void;
     yellowBtnCallback?: () => void;
     greenBtnCallback?: () => void;
     TopButtonsPanel?: (props: IWindowButtonsProps) => ReactElement | null;
 }
-declare const Terminal: ({ name, prompt, height, colorMode, onInput, children, startingInputValue, redBtnCallback, yellowBtnCallback, greenBtnCallback, TopButtonsPanel, }: Props) => React.JSX.Element;
+declare const Terminal: ({ name, prompt, height, colorMode, onInput, children, startingInputValue, passwordField, redBtnCallback, yellowBtnCallback, greenBtnCallback, TopButtonsPanel, }: Props) => React.JSX.Element;
 export { TerminalInput, TerminalOutput };
 export default Terminal;
